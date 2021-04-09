@@ -3,11 +3,10 @@
 // ##################################
 
 const fileName = "data/ts_scrobbles.csv"
-const plotContainer = "div#plot-container"
-const margin = { top: 10, right: 30, bottom: 30, left: 10 }
-const width = 1200 - margin.left - margin.right
-const contextHeight = 100 - margin.top - margin.bottom
-const barplotHeight = 600 - margin.top - margin.bottom
+const margin = { top: 20, right: 30, bottom: 20, left: 10 }
+const width = 900 - margin.left - margin.right
+const contextHeight = 120 - margin.top - margin.bottom
+const barplotHeight = 500 - margin.top - margin.bottom
 const barHeight = 25
 const duration = 250
 const topN = 12
@@ -32,8 +31,15 @@ const genres = [
   "indie pop",
 ]
 
+const container = d3
+  .select("div#plot-container")
+  .style(
+    "height",
+    2 * (margin.top + margin.bottom) + contextHeight + barplotHeight
+  )
+
 // ##################################
-//  DATA PROCESSING
+//  DATA PROCESSING FUNCTIONS
 // ##################################
 
 const parseTime = d3.timeParse("%Y-%m-%d")
@@ -52,7 +58,7 @@ const addDays = (date, days) => {
   return result
 }
 
-const getCumulativeTimeSeries = (data) => {
+const getCumulativeDayScrobbles = (data) => {
   let start = data[data.length - 1].date
   let end = addDays(data[0].date, 1)
   let days = d3.timeDays(start, end)
@@ -73,154 +79,199 @@ const getCumulativeTimeSeries = (data) => {
 }
 
 // ##################################
-//  PRE-RENDERING
+//  AXIS & AREA FUNCTIONS
 // ##################################
 
-// Context graph
-const context = d3
-  .select(plotContainer)
-  .append("svg")
-  .style("display", "block")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", contextHeight + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-  .on("input", ({ target }) => console.log(target.value))
+// X-axis creation function
+const xAxis = (g, x, height) =>
+  g.attr("transform", `translate(0, ${height - margin.bottom})`).call(
+    d3
+      .axisBottom(x)
+      .ticks(width / 80)
+      .tickSizeOuter(0)
+  )
 
-// Context axis
-const contextX = d3.scaleUtc().range([0, width])
-const contextY = d3.scaleLinear().range([contextHeight, 0])
-
-// Context area
-const valueArea = d3
-  .area()
-  .x((d) => contextX(d.date))
-  .y0(contextY(0))
-  .y1((d) => contextY(d.count))
-
-// Context brush & default selection
-const brushg = context.append("g")
-const defaultSelection = () => [
-  contextX(d3.utcYear.floor(contextX.domain()[1])),
-  contextX.range()[1],
-]
-
-// Brush functions
-const brushed = ({ selection }) => {
-  if (selection) {
-    // Updates the currently selected range and triggers "input" callbacks.
-    context.property(
-      "value",
-      selection.map(contextX.invert, contextX).map(d3.utcDay.round)
+// Y-axis creation function
+const yAxis = (g, y, title) =>
+  g
+    .attr("transform", `translate(${margin.left}, 0)`)
+    .call(d3.axisLeft(y))
+    .call((g) => g.select(".domain").remove())
+    .call((g) =>
+      g
+        .selectAll(".title")
+        .data([title])
+        .join("text")
+        .attr("class", "title")
+        .attr("x", -margin.left)
+        .attr("y", 10)
+        .attr("fill", "currentColor")
+        .attr("text-anchor", "start")
+        .text(title)
     )
-    context.dispatch("input")
-  }
-}
-const brushended = ({ selection }) => {
-  if (!selection) brushg.call(brush.move, defaultSelection)
-}
 
-// Brush
-const brush = d3
-  .brushX()
-  .extent([
-    [0, 0],
-    [width, contextHeight - 1],
-  ])
-  .on("brush", brushed)
-  .on("end", brushended)
+async function main() {
+  const data = await d3.csv(fileName, transformData)
+  const ts = getCumulativeDayScrobbles(data) // Daily scrobble counts
 
-// Barplot graph container
-const barplot = d3
-  .select(plotContainer)
-  .append("svg")
-  .style("display", "block")
-  .attr("width", width + margin.left + margin.right)
-  .attr("height", barplotHeight + margin.top + margin.bottom)
-  .append("g")
-  .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-  .attr("fill", "steelblue")
+  // Context X and Y
+  const cxX = d3
+    .scaleUtc()
+    .domain(d3.extent(ts, (d) => d.date))
+    .range([margin.left, width - margin.right])
 
-// Barplot axis
-const barplotX = d3.scaleLinear().range([0, width])
-const barplotY = d3.scaleBand().rangeRound([0, barplotHeight]).padding(0.1)
+  const cxY = d3
+    .scaleLinear()
+    .domain([0, data.length])
+    .range([contextHeight - margin.bottom, margin.top])
 
-// ##################################
-//  DATA LOADING
-// ##################################
-d3.csv(fileName, transformData).then((data) => {
-  let ts = getCumulativeTimeSeries(data)
+  // Context area
+  const area = (x, y) =>
+    d3
+      .area()
+      .defined((d) => !isNaN(d.count))
+      .x((d) => cxX(d.date))
+      .y0(cxY(0))
+      .y1((d) => cxY(d.count))
 
-  let start = ts[0].date
-  let end = ts[ts.length - 1].date
-  let total = data.length
+  // ##################################
+  //  CONTEXT GRAPH AND BRUSH
+  // ##################################
+  const cx_svg = container
+    .append("svg")
+    .attr("viewBox", [0, 0, width, contextHeight])
+    .attr("preserveAspectRatio", "xMinYMin meet")
 
-  // Scale the context axis
-  contextX.domain([start, end])
-  contextY.domain([0, total])
-
-  // Add X axis
-  context
-    .insert("g", ":first-child")
-    .attr("transform", "translate(0," + contextHeight + ")")
-    .call(d3.axisBottom(contextX).tickSizeOuter(0))
-
-  // Add area
-  context
+  // Create the area
+  cx_svg
     .insert("path", ":first-child")
     .datum(ts)
     .attr("class", "area")
-    .attr("d", valueArea)
+    .attr("d", area)
 
-  // Add brush & move it to a default selection
+  // Create the X and Y axis
+  cx_svg.append("g").call(xAxis, cxX, contextHeight)
+  cx_svg
+    .append("path")
+    .datum(ts)
+    .attr("fill", "steelblue")
+    .attr("d", area(cxX, cxY.copy().range([contextHeight - margin.bottom, 4])))
+
+  const brushg = cx_svg.append("g")
+
+  // Set default selection to beginning of the latest year
+  const defaultSelection = [
+    cxX(d3.utcYear.floor(cxX.domain()[1])),
+    cxX.range()[1],
+  ]
+
+  // Brush functions
+  const brushed = ({ selection: slct }) => {
+    // Updates the currently selected range and triggers "input" callbacks.
+    if (slct) {
+      cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.utcDay.round))
+      cx_svg.dispatch("input")
+    }
+  }
+
+  const brushended = ({ selection }) => {
+    if (!selection) brushg.call(brush.move, defaultSelection)
+  }
+
+  // Brush
+  const brush = d3
+    .brushX()
+    .extent([
+      [margin.left, 0.5],
+      [width - margin.right, contextHeight - margin.bottom + 0.5],
+    ])
+    .on("brush", brushed)
+    .on("end", brushended)
+
+  // Create the brush and move it into position
   brushg.call(brush).call(brush.move, defaultSelection)
 
-  // Barchart
-  const tracks = d3.rollup(
-    data,
-    (v) => v.length,
-    (d) => d.track + ", " + d.artist
+  // ##################################
+  //  BARPLOT GRAPH
+  // ##################################
+  // Barplot graph container
+  const barplot = container
+    .append("svg")
+    .attr("viewBox", [0, 0, width, barplotHeight])
+    .attr("preserveAspectRatio", "xMinYMin meet")
+
+  // Count scrobbles for each track + artist
+  const tracks = Array.from(
+    d3.rollup(
+      data,
+      (v) => v.length,
+      (d) => d.track + ", " + d.artist
+    )
   )
 
-  // console.log(d3.greatest(tracks, (v) => v[1]))
-  let k = 10
-  let tracksCpy = Array.from(tracks)
-  let comparator = (a, b) => b[1] - a[1]
-  d3.quickselect(tracksCpy, k, 0, tracks.length, comparator)
-  let topTracks = tracksCpy.slice(0, k).sort(comparator)
+  const k = 10 // Number of tracks to display
+  const comparator = (a, b) => b[1] - a[1]
 
-  // Scale the barplot axis
-  barplotX.domain([start, end])
-  barplotY.domain([0, total])
+  // Select top k scrobbled artists
+  let topTracks = d3
+    .quickselect(tracks.slice(), k, 0, tracks.length - 1, comparator)
+    .slice(0, k)
+    .sort(comparator)
 
+  // Barplot axis
+  const barX = d3
+    .scaleLinear()
+    .domain([0, topTracks[0][1]])
+    .range([margin.left, width - margin.right])
+  const barY = d3
+    .scaleBand()
+    .domain(d3.range(topTracks.length))
+    .rangeRound([margin.top, barplotHeight - margin.bottom])
+    .padding(0.1)
+
+  // Draw the barplot
   barplot
+    .append("g")
     .selectAll("rect")
     .data(topTracks)
     .join("rect")
-    .attr("x", barplotX(0))
-    .attr("y", (_, i) => barplotY(i))
-    .attr("width", (d) => barplotX(d[1]) - barplotX(0))
-    .attr("height", barplotY.bandwidth())
+    .attr("fill", "teal")
+    .attr("x", barX(0))
+    .attr("y", (_, i) => barY(i))
+    .attr("width", (d) => barX(d[1]))
+    .attr("height", barY.bandwidth())
 
   barplot
     .append("g")
     .attr("fill", "white")
     .attr("text-anchor", "end")
     .attr("font-family", "sans-serif")
-    .attr("font-size", "12px")
+    .attr("font-size", 12)
     .selectAll("text")
     .data(topTracks)
     .join("text")
-    .attr("x", (d) => barplotX(d[1]))
-    .attr("y", (_, i) => barplotY(i) + barplotY.bandwidth() / 2)
+    .attr("x", (d) => barX(d[1]))
+    .attr("y", (_, i) => barY(i) + barY.bandwidth() / 2)
     .attr("dy", "0.35em")
     .attr("dx", -4)
-    .text((d) => format(d[0]))
+    .text((d) => d[0])
     .call((text) =>
       text
-        .filter((d) => barplotX(d[1]) - barplotX(0) < 20) // short bars
+        .filter(
+          // Select the short bars
+          (d) => d[1] < 15
+        )
         .attr("dx", +4)
         .attr("fill", "black")
         .attr("text-anchor", "start")
     )
-})
+
+  // Draw the X-axis
+  barplot
+    .append("g")
+    .attr("transform", `translate(0, ${margin.top})`)
+    .call(d3.axisTop(barX).ticks(width / 80, topTracks.format))
+    .call((g) => g.select(".domain").remove())
+}
+
+main()
