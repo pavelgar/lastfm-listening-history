@@ -7,10 +7,7 @@ const margin = { top: 20, right: 30, bottom: 20, left: 10 }
 const width = 900 - margin.left - margin.right
 const contextHeight = 120 - margin.top - margin.bottom
 const barplotHeight = 500 - margin.top - margin.bottom
-const barHeight = 25
-const duration = 250
-const topN = 12
-const keyframes = 10
+const k = 10 // Number of tracks to display
 const genres = [
   "rock",
   "pop",
@@ -82,7 +79,7 @@ const getCumulativeDayScrobbles = (data) => {
 //  AXIS & AREA FUNCTIONS
 // ##################################
 
-// X-axis creation function
+// X-axis creation functions
 const xAxis = (g, x, height) =>
   g.attr("transform", `translate(0, ${height - margin.bottom})`).call(
     d3
@@ -90,6 +87,12 @@ const xAxis = (g, x, height) =>
       .ticks(width / 80)
       .tickSizeOuter(0)
   )
+
+const xAxisTop = (g, x) =>
+  g
+    .attr("transform", `translate(0, ${margin.top})`)
+    .call(d3.axisTop(x).ticks(width / 80))
+    .call((g) => g.select(".domain").remove())
 
 // Y-axis creation function
 const yAxis = (g, y, title) =>
@@ -194,84 +197,101 @@ async function main() {
   // ##################################
   //  BARPLOT GRAPH
   // ##################################
+  // Barplot axis
+  const barX = d3.scaleLinear().range([margin.left, width - margin.right])
+  const barY = d3
+    .scaleBand()
+    .domain(d3.range(k))
+    .rangeRound([margin.top, barplotHeight - margin.bottom])
+    .padding(0.1)
+
   // Barplot graph container
   const barplot = container
     .append("svg")
     .attr("viewBox", [0, 0, width, barplotHeight])
     .attr("preserveAspectRatio", "xMinYMin meet")
 
-  // Count scrobbles for each track + artist
-  const tracks = Array.from(
-    d3.rollup(
-      data,
-      (v) => v.length,
-      (d) => d.track + ", " + d.artist
-    )
-  )
-
-  const k = 10 // Number of tracks to display
-  const comparator = (a, b) => b[1] - a[1]
-
-  // Select top k scrobbled artists
-  let topTracks = d3
-    .quickselect(tracks.slice(), k, 0, tracks.length - 1, comparator)
-    .slice(0, k)
-    .sort(comparator)
-
-  // Barplot axis
-  const barX = d3
-    .scaleLinear()
-    .domain([0, topTracks[0][1]])
-    .range([margin.left, width - margin.right])
-  const barY = d3
-    .scaleBand()
-    .domain(d3.range(topTracks.length))
-    .rangeRound([margin.top, barplotHeight - margin.bottom])
-    .padding(0.1)
-
   // Draw the barplot
-  barplot
-    .append("g")
-    .selectAll("rect")
-    .data(topTracks)
-    .join("rect")
-    .attr("fill", "teal")
-    .attr("x", barX(0))
-    .attr("y", (_, i) => barY(i))
-    .attr("width", (d) => barX(d[1]))
-    .attr("height", barY.bandwidth())
+  const bars = barplot.append("g")
 
-  barplot
+  // Draw the barplot labels
+  const barLabels = barplot
     .append("g")
     .attr("fill", "white")
     .attr("text-anchor", "end")
     .attr("font-family", "sans-serif")
     .attr("font-size", 12)
-    .selectAll("text")
-    .data(topTracks)
-    .join("text")
-    .attr("x", (d) => barX(d[1]))
-    .attr("y", (_, i) => barY(i) + barY.bandwidth() / 2)
-    .attr("dy", "0.35em")
-    .attr("dx", -4)
-    .text((d) => d[0])
-    .call((text) =>
-      text
-        .filter(
-          // Select the short bars
-          (d) => d[1] < 15
-        )
-        .attr("dx", +4)
-        .attr("fill", "black")
-        .attr("text-anchor", "start")
+
+  // X axis
+  const barplotX = barplot.append("g")
+
+  const updateBars = (_, newData) => {
+    // Update X axis
+    barX.domain([0, newData[0][1]])
+
+    barplotX.selectAll("g.tick").remove()
+    barplotX.call(xAxisTop, barX)
+
+    // Barplot bars
+    bars.selectAll("rect").remove()
+    bars
+      .selectAll("rect")
+      .data(newData)
+      .join("rect")
+      .attr("fill", "teal")
+      .attr("x", barX(0))
+      .attr("y", (_, i) => barY(i))
+      .attr("width", (d) => barX(d[1]))
+      .attr("height", barY.bandwidth())
+
+    // Barplot labels
+    barLabels.selectAll("text").remove()
+    barLabels
+      .selectAll("text")
+      .data(newData)
+      .join("text")
+      .attr("x", (d) => barX(d[1]))
+      .attr("y", (_, i) => barY(i) + barY.bandwidth() / 2)
+      .attr("dy", "0.35em")
+      .attr("dx", -4)
+      .text((d) => d[0])
+    // .call((text) =>
+    //   text
+    //     .filter(
+    //       // Select the short bars
+    //       (d) => d[1] < 15
+    //     )
+    //     .attr("dx", +4)
+    //     .attr("fill", "black")
+    //     .attr("text-anchor", "start")
+    // )
+  }
+
+  const comparator = (a, b) => b[1] - a[1]
+  const onSelectionUpdate = (event) => {
+    // Select scrobbles from the selected date range
+    let [min, max] = event.target.value
+    let dataslice = data.filter(({ date }) => date > min && date < max)
+
+    // Count scrobbles for each track + artist
+    let trackCounts = Array.from(
+      d3.rollup(
+        dataslice,
+        (v) => v.length,
+        (d) => d.track + ", " + d.artist
+      )
     )
 
-  // Draw the X-axis
-  barplot
-    .append("g")
-    .attr("transform", `translate(0, ${margin.top})`)
-    .call(d3.axisTop(barX).ticks(width / 80, topTracks.format))
-    .call((g) => g.select(".domain").remove())
+    // Select top k scrobbled artists
+    let topTracks = d3
+      .quickselect(trackCounts, k, 0, trackCounts.length - 1, comparator)
+      .slice(0, k)
+      .sort(comparator)
+
+    barplot.call(updateBars, topTracks)
+  }
+
+  cx_svg.on("input", onSelectionUpdate)
 }
 
 main()
