@@ -6,8 +6,8 @@ const fileName = "data/ts_scrobbles.csv"
 const margin = { top: 20, right: 30, bottom: 60, left: 40 }
 const width = 1200 - margin.left - margin.right
 const contextHeight = 250 - margin.top - margin.bottom
-const graphHeight = 500 - margin.top - margin.bottom
-const k = 9 // Number of tracks to display
+const graphHeight = 600 - margin.top - margin.bottom
+const textColor = "#d8d4cf"
 const genres = [
   "rock",
   "pop",
@@ -80,12 +80,7 @@ const getCounts = (d, by, accessor) =>
 const xAxis = (g, x) =>
   g
     .attr("transform", `translate(0, ${contextHeight - margin.bottom})`)
-    .call(
-      d3
-        .axisBottom(x)
-        .ticks(width / 40)
-        .tickSizeOuter(0)
-    )
+    .call(d3.axisBottom(x).ticks(d3.timeMonth).tickSizeOuter(0))
     .call((g) =>
       g
         .selectAll(".tick > text")
@@ -118,14 +113,22 @@ const yAxis = (g, y, title) =>
 
 const xAxisGraph = (g, x) =>
   g
-    .attr("transform", `translate(0, ${graphHeight - margin.bottom})`)
     .call(
       d3
         .axisBottom(x)
         .ticks(width / 80)
+        .tickSize(graphHeight - margin.bottom)
         .tickSizeOuter(0)
     )
     .call((g) => g.select(".domain").remove())
+    .call((g) => g.selectAll(".tick > text").attr("fill", textColor))
+    .call((g) =>
+      g
+        .selectAll(".tick > line")
+        .attr("stroke", textColor)
+        .attr("stroke-opacity", 0.5)
+        .attr("stroke-dasharray", "2,2")
+    )
 
 async function main() {
   // ##################################
@@ -187,16 +190,20 @@ async function main() {
   const defaultSelection = [cxX(d3.timeYear(cxX.domain()[1])), cxX.range()[1]]
 
   // Brush functions
+  // const brushed = ({ selection: slct }) => {
+  //   // Updates the currently selected range and triggers "input" callbacks.
+  //   if (slct) {
+  //     cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.utcDay.round))
+  //     cx_svg.dispatch("input")
+  //   }
+  // }
+
   const brushed = ({ selection: slct }) => {
-    // Updates the currently selected range and triggers "input" callbacks.
-    if (slct) {
+    if (!slct) brushg.call(brush.move, defaultSelection)
+    else {
       cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.utcDay.round))
       cx_svg.dispatch("input")
     }
-  }
-
-  const brushended = ({ selection }) => {
-    if (!selection) brushg.call(brush.move, defaultSelection)
   }
 
   // Brush
@@ -206,8 +213,8 @@ async function main() {
       [margin.left, 0.5],
       [width - margin.right, contextHeight - margin.bottom - 0.5],
     ])
-    .on("brush", brushed)
-    .on("end", brushended)
+    .on("end", brushed)
+  // .on("end", brushended)
 
   // ##################################
   //  STREAMGRAPH
@@ -227,28 +234,44 @@ async function main() {
     .scaleLinear()
     .range([graphHeight - margin.bottom, margin.top])
 
-  // Graph generator
+  // Graph generators
   const stack = d3
     .stack()
-    .offset(d3.stackOffsetWiggle)
     .order(d3.stackOrderInsideOut)
+    .offset(d3.stackOffsetWiggle)
+
+  const area = d3
+    .area()
+    .curve(d3.curveMonotoneX)
+    .x((d) => plotX(d.data.date))
+    .y0((d) => plotY(d[0]))
+    .y1((d) => plotY(d[1]))
 
   // Plot groups
   const streamgraph = plot.append("g")
   const streamgraphX = plot.append("g")
 
-  const area = d3
-    .area()
-    .x((d) => plotX(d.data.date))
-    .y0((d) => plotY(d[0]))
-    .y1((d) => plotY(d[1]))
-
-  const comparator = (a, b) => b[1] - a[1]
-
   // Register brush event handler
   cx_svg.on("input", ({ target }) => {
     const [min, max] = [target.value[0], d3.timeDay.offset(target.value[1], 1)]
     const dateRange = d3.timeMondays(min, max)
+
+    // // Select top k scrobbled artists
+    // const topArtists = d3
+    //   .quickselect(artistCounts, k, 0, artistCounts.length - 1, comparator)
+    //   .slice(0, k)
+    //   .map((d) => d[0])
+
+    // Extract the scrobbles of each top artist for each time interval
+    // const dataWindow = []
+    // dateRange.forEach((date) => {
+    //   let d = weeklyArtistCounts.get(date)
+    //   if (d) {
+    //     let dObj = topArtists.map((track) => [track, d.get(track) || 0])
+    //     dataWindow.push({ date, ...Object.fromEntries(dObj) })
+    //   }
+    // })
+
     // Get the overall scrobble counts for the selected window
     const artistCounts = Array.from(
       d3.rollup(
@@ -256,26 +279,23 @@ async function main() {
         (v) => v.length,
         (d) => d.artist
       )
-    )
+    ).sort((a, b) => b[1] - a[1])
+    const artists = artistCounts.map((d) => d[0])
 
-    // Select top k scrobbled artists
-    const topArtists = d3
-      .quickselect(artistCounts, k, 0, artistCounts.length - 1, comparator)
-      .slice(0, k)
-      .map((d) => d[0])
-
-    // Extract the scrobbles of each top artist for each time interval
     const dataWindow = []
     dateRange.forEach((date) => {
       let d = weeklyArtistCounts.get(date)
       if (d) {
-        let dObj = topArtists.map((track) => [track, d.get(track) || 0])
+        let dObj = artists.map((track) => [track, d.get(track) || 0])
         dataWindow.push({ date, ...Object.fromEntries(dObj) })
       }
     })
 
+    if (dataWindow.length != dateRange.length)
+      console.log("Missing weeks!!!", dataWindow.length, dateRange.length)
+
     // Generate the series based on the data window
-    const series = stack.keys(topArtists)(dataWindow)
+    const series = stack.keys(artists)(dataWindow)
 
     // Update the axis
     plotX.domain(d3.extent(dateRange))
@@ -284,20 +304,31 @@ async function main() {
       d3.max(series, (d) => d3.max(d, (d) => d[1])),
     ])
 
-    // Map colors to artists
-    // TODO: Make this work with linearly scaled colors
-    const color = d3.scaleOrdinal(topArtists, d3.schemeOrRd[k])
+    // // Map colors to artists
+    // const artistSat = d3
+    //   .scaleOrdinal()
+    //   .domain(artists)
+    //   .range(artists.map((_, i) => saturationScale(i)))
 
+    // const artistHue = d3
+    //   .scaleOrdinal()
+    //   .domain(artists)
+    //   .range(d3.range(artists.length).map((d) => (d / artists.length) * 360))
+
+    const cutoff = (artists.length - 1) / 2
+    const colorScale = d3
+      .scaleSequential(d3.interpolateInferno)
+      .domain([0, cutoff])
+
+    streamgraphX.call(xAxisGraph, plotX)
     streamgraph
       .selectAll("path")
       .data(series)
       .join("path")
-      .attr("fill", ({ key }) => color(key))
+      .attr("fill", ({ index }) => colorScale(Math.abs(index - cutoff)))
       .attr("d", area)
       .append("title")
       .text(({ key }) => key)
-
-    streamgraphX.call(xAxisGraph, plotX)
   })
 
   // Create the brush and move it into default position.
