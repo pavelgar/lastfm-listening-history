@@ -3,11 +3,11 @@
 // ##################################
 
 const fileName = "data/ts_scrobbles.csv"
-const margin = { top: 20, right: 30, bottom: 20, left: 10 }
-const width = 900 - margin.left - margin.right
-const contextHeight = 120 - margin.top - margin.bottom
-const barplotHeight = 500 - margin.top - margin.bottom
-const k = 10 // Number of tracks to display
+const margin = { top: 20, right: 30, bottom: 60, left: 40 }
+const width = 1200 - margin.left - margin.right
+const contextHeight = 250 - margin.top - margin.bottom
+const graphHeight = 500 - margin.top - margin.bottom
+const k = 9 // Number of tracks to display
 const genres = [
   "rock",
   "pop",
@@ -28,12 +28,7 @@ const genres = [
   "indie pop",
 ]
 
-const container = d3
-  .select("div#plot-container")
-  .style(
-    "height",
-    2 * (margin.top + margin.bottom) + contextHeight + barplotHeight
-  )
+const container = d3.select("div#plot-container")
 
 // ##################################
 //  DATA PROCESSING FUNCTIONS
@@ -55,7 +50,7 @@ const addDays = (date, days) => {
   return result
 }
 
-const getCumulativeDayScrobbles = (data) => {
+const getDayilyScrobbles = (data) => {
   let start = data[data.length - 1].date
   let end = addDays(data[0].date, 1)
   let days = d3.timeDays(start, end)
@@ -65,77 +60,101 @@ const getCumulativeDayScrobbles = (data) => {
     (d) => d.date // Combine by Date
   )
 
-  let total = 0
-  let cumulativeSeries = days.map((day) => ({
-    date: day,
-    count: (total += scrobbleCounts.get(day) || 0),
-    exists: scrobbleCounts.has(day),
+  return days.map((date) => ({
+    date,
+    count: scrobbleCounts.get(date) || 0,
   }))
-
-  return cumulativeSeries
 }
 
-// ##################################
-//  AXIS & AREA FUNCTIONS
-// ##################################
-
-// X-axis creation functions
-const xAxis = (g, x, height) =>
-  g.attr("transform", `translate(0, ${height - margin.bottom})`).call(
-    d3
-      .axisBottom(x)
-      .ticks(width / 80)
-      .tickSizeOuter(0)
+const getCounts = (d, by, accessor) =>
+  d3.rollup(
+    d,
+    (v) => v.length,
+    (d) => by(d.date),
+    accessor
   )
 
+// ##################################
+//  AXIS FUNCTIONS
+// ##################################
+const xAxis = (g, x) =>
+  g
+    .attr("transform", `translate(0, ${contextHeight - margin.bottom})`)
+    .call(
+      d3
+        .axisBottom(x)
+        .ticks(width / 40)
+        .tickSizeOuter(0)
+    )
+    .call((g) =>
+      g
+        .selectAll(".tick > text")
+        .style("text-anchor", "start")
+        .attr("transform", "rotate(45) translate(8 0)")
+    )
+
+// TODO: Delet dis
 const xAxisTop = (g, x) =>
   g
     .attr("transform", `translate(0, ${margin.top})`)
     .call(d3.axisTop(x).ticks(width / 80))
     .call((g) => g.select(".domain").remove())
 
-// Y-axis creation function
 const yAxis = (g, y, title) =>
   g
     .attr("transform", `translate(${margin.left}, 0)`)
-    .call(d3.axisLeft(y))
+    .call(d3.axisLeft(y).ticks(contextHeight / 40))
     .call((g) => g.select(".domain").remove())
     .call((g) =>
       g
-        .selectAll(".title")
-        .data([title])
-        .join("text")
-        .attr("class", "title")
+        .select(".tick:last-of-type text")
+        .clone()
         .attr("x", -margin.left)
-        .attr("y", 10)
-        .attr("fill", "currentColor")
+        .attr("y", -margin.top)
         .attr("text-anchor", "start")
+        .attr("font-weight", "bold")
         .text(title)
     )
 
+const xAxisGraph = (g, x) =>
+  g
+    .attr("transform", `translate(0, ${graphHeight - margin.bottom})`)
+    .call(
+      d3
+        .axisBottom(x)
+        .ticks(width / 80)
+        .tickSizeOuter(0)
+    )
+    .call((g) => g.select(".domain").remove())
+
 async function main() {
+  // ##################################
+  //  DATA LOADING AND PREPROCESSING
+  // ##################################
   const data = await d3.csv(fileName, transformData)
-  const ts = getCumulativeDayScrobbles(data) // Daily scrobble counts
+  // Start and end day of the data
+  const dataExtent = d3.extent(data, (d) => d.date)
+  // Every week between the beginning and the end of data
+  const thresholds = d3.timeWeeks(...dataExtent)
+
+  // Group data into bins
+  const bins = d3
+    .bin()
+    .domain(dataExtent)
+    .thresholds(thresholds)
+    .value((d) => d.date)(data)
 
   // Context X and Y
   const cxX = d3
-    .scaleUtc()
-    .domain(d3.extent(ts, (d) => d.date))
+    .scaleTime()
+    .domain(dataExtent)
     .range([margin.left, width - margin.right])
 
   const cxY = d3
     .scaleLinear()
-    .domain([0, data.length])
+    .domain([0, d3.max(bins, (d) => d.length)])
     .range([contextHeight - margin.bottom, margin.top])
-
-  // Context area
-  const area = (x, y) =>
-    d3
-      .area()
-      .defined((d) => !isNaN(d.count))
-      .x((d) => cxX(d.date))
-      .y0(cxY(0))
-      .y1((d) => cxY(d.count))
+    .nice()
 
   // ##################################
   //  CONTEXT GRAPH AND BRUSH
@@ -145,28 +164,27 @@ async function main() {
     .attr("viewBox", [0, 0, width, contextHeight])
     .attr("preserveAspectRatio", "xMinYMin meet")
 
-  // Create the area
+  // Create the bars
   cx_svg
-    .insert("path", ":first-child")
-    .datum(ts)
-    .attr("class", "area")
-    .attr("d", area)
+    .insert("g", ":first-child")
+    .attr("fill", "steelblue")
+    .selectAll("rect")
+    .data(bins)
+    .join("rect")
+    .attr("x", (d) => cxX(d.x0) + 1)
+    .attr("y", (d) => cxY(d.length))
+    .attr("width", (d) => Math.max(0, cxX(d.x1) - cxX(d.x0) - 1))
+    .attr("height", (d) => cxY(0) - cxY(d.length))
 
   // Create the X and Y axis
-  cx_svg.append("g").call(xAxis, cxX, contextHeight)
-  cx_svg
-    .append("path")
-    .datum(ts)
-    .attr("fill", "steelblue")
-    .attr("d", area(cxX, cxY.copy().range([contextHeight - margin.bottom, 4])))
+  cx_svg.append("g").call(xAxis, cxX)
+  cx_svg.append("g").call(yAxis, cxY, "Weekly scrobbles")
 
+  // Create the brush
   const brushg = cx_svg.append("g")
 
   // Set default selection to beginning of the latest year
-  const defaultSelection = [
-    cxX(d3.utcYear.floor(cxX.domain()[1])),
-    cxX.range()[1],
-  ]
+  const defaultSelection = [cxX(d3.timeYear(cxX.domain()[1])), cxX.range()[1]]
 
   // Brush functions
   const brushed = ({ selection: slct }) => {
@@ -186,112 +204,105 @@ async function main() {
     .brushX()
     .extent([
       [margin.left, 0.5],
-      [width - margin.right, contextHeight - margin.bottom + 0.5],
+      [width - margin.right, contextHeight - margin.bottom - 0.5],
     ])
     .on("brush", brushed)
     .on("end", brushended)
 
-  // Create the brush and move it into position
-  brushg.call(brush).call(brush.move, defaultSelection)
-
   // ##################################
-  //  BARPLOT GRAPH
+  //  STREAMGRAPH
   // ##################################
-  // Barplot axis
-  const barX = d3.scaleLinear().range([margin.left, width - margin.right])
-  const barY = d3
-    .scaleBand()
-    .domain(d3.range(k))
-    .rangeRound([margin.top, barplotHeight - margin.bottom])
-    .padding(0.1)
+  // Count scrobbles for each artist by week
+  const weeklyArtistCounts = getCounts(data, d3.timeMonday, (d) => d.artist)
 
-  // Barplot graph container
-  const barplot = container
+  // The graph container
+  const plot = container
     .append("svg")
-    .attr("viewBox", [0, 0, width, barplotHeight])
+    .attr("viewBox", [0, 0, width, graphHeight])
     .attr("preserveAspectRatio", "xMinYMin meet")
 
-  // Draw the barplot
-  const bars = barplot.append("g")
+  // Graph scales
+  const plotX = d3.scaleTime().range([margin.left, width - margin.right])
+  const plotY = d3
+    .scaleLinear()
+    .range([graphHeight - margin.bottom, margin.top])
 
-  // Draw the barplot labels
-  const barLabels = barplot
-    .append("g")
-    .attr("fill", "white")
-    .attr("text-anchor", "end")
-    .attr("font-family", "sans-serif")
-    .attr("font-size", 12)
+  // Graph generator
+  const stack = d3
+    .stack()
+    .offset(d3.stackOffsetWiggle)
+    .order(d3.stackOrderInsideOut)
 
-  // X axis
-  const barplotX = barplot.append("g")
+  // Plot groups
+  const streamgraph = plot.append("g")
+  const streamgraphX = plot.append("g")
 
-  const updateBars = (_, newData) => {
-    // Update X axis
-    barX.domain([0, newData[0][1]])
-
-    barplotX.selectAll("g.tick").remove()
-    barplotX.call(xAxisTop, barX)
-
-    // Barplot bars
-    bars.selectAll("rect").remove()
-    bars
-      .selectAll("rect")
-      .data(newData)
-      .join("rect")
-      .attr("fill", "teal")
-      .attr("x", barX(0))
-      .attr("y", (_, i) => barY(i))
-      .attr("width", (d) => barX(d[1]))
-      .attr("height", barY.bandwidth())
-
-    // Barplot labels
-    barLabels.selectAll("text").remove()
-    barLabels
-      .selectAll("text")
-      .data(newData)
-      .join("text")
-      .attr("x", (d) => barX(d[1]))
-      .attr("y", (_, i) => barY(i) + barY.bandwidth() / 2)
-      .attr("dy", "0.35em")
-      .attr("dx", -4)
-      .text((d) => d[0])
-    // .call((text) =>
-    //   text
-    //     .filter(
-    //       // Select the short bars
-    //       (d) => d[1] < 15
-    //     )
-    //     .attr("dx", +4)
-    //     .attr("fill", "black")
-    //     .attr("text-anchor", "start")
-    // )
-  }
+  const area = d3
+    .area()
+    .x((d) => plotX(d.data.date))
+    .y0((d) => plotY(d[0]))
+    .y1((d) => plotY(d[1]))
 
   const comparator = (a, b) => b[1] - a[1]
-  const onSelectionUpdate = (event) => {
-    // Select scrobbles from the selected date range
-    let [min, max] = event.target.value
-    let dataslice = data.filter(({ date }) => date > min && date < max)
 
-    // Count scrobbles for each track + artist
-    let trackCounts = Array.from(
+  // Register brush event handler
+  cx_svg.on("input", ({ target }) => {
+    const [min, max] = [target.value[0], d3.timeDay.offset(target.value[1], 1)]
+    const dateRange = d3.timeMondays(min, max)
+    // Get the overall scrobble counts for the selected window
+    const artistCounts = Array.from(
       d3.rollup(
-        dataslice,
+        data.filter(({ date }) => date > min && date < max),
         (v) => v.length,
-        (d) => d.track + ", " + d.artist
+        (d) => d.artist
       )
     )
 
     // Select top k scrobbled artists
-    let topTracks = d3
-      .quickselect(trackCounts, k, 0, trackCounts.length - 1, comparator)
+    const topArtists = d3
+      .quickselect(artistCounts, k, 0, artistCounts.length - 1, comparator)
       .slice(0, k)
-      .sort(comparator)
+      .map((d) => d[0])
 
-    barplot.call(updateBars, topTracks)
-  }
+    // Extract the scrobbles of each top artist for each time interval
+    const dataWindow = []
+    dateRange.forEach((date) => {
+      let d = weeklyArtistCounts.get(date)
+      if (d) {
+        let dObj = topArtists.map((track) => [track, d.get(track) || 0])
+        dataWindow.push({ date, ...Object.fromEntries(dObj) })
+      }
+    })
 
-  cx_svg.on("input", onSelectionUpdate)
+    // Generate the series based on the data window
+    const series = stack.keys(topArtists)(dataWindow)
+
+    // Update the axis
+    plotX.domain(d3.extent(dateRange))
+    plotY.domain([
+      d3.min(series, (d) => d3.min(d, (d) => d[0])),
+      d3.max(series, (d) => d3.max(d, (d) => d[1])),
+    ])
+
+    // Map colors to artists
+    // TODO: Make this work with linearly scaled colors
+    const color = d3.scaleOrdinal(topArtists, d3.schemeOrRd[k])
+
+    streamgraph
+      .selectAll("path")
+      .data(series)
+      .join("path")
+      .attr("fill", ({ key }) => color(key))
+      .attr("d", area)
+      .append("title")
+      .text(({ key }) => key)
+
+    streamgraphX.call(xAxisGraph, plotX)
+  })
+
+  // Create the brush and move it into default position.
+  // This will also trigger the initial render.
+  brushg.call(brush).call(brush.move, defaultSelection)
 }
 
 main()
