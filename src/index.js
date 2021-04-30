@@ -7,7 +7,6 @@ const margin = { top: 20, right: 30, bottom: 60, left: 40 }
 const width = 1200 - margin.left - margin.right
 const contextHeight = 250 - margin.top - margin.bottom
 const graphHeight = 600 - margin.top - margin.bottom
-const textColor = "#d8d4cf"
 const genres = [
   "rock",
   "pop",
@@ -88,13 +87,6 @@ const xAxis = (g, x) =>
         .attr("transform", "rotate(45) translate(8 0)")
     )
 
-// TODO: Delet dis
-const xAxisTop = (g, x) =>
-  g
-    .attr("transform", `translate(0, ${margin.top})`)
-    .call(d3.axisTop(x).ticks(width / 80))
-    .call((g) => g.select(".domain").remove())
-
 const yAxis = (g, y, title) =>
   g
     .attr("transform", `translate(${margin.left}, 0)`)
@@ -110,22 +102,22 @@ const yAxis = (g, y, title) =>
         .attr("font-weight", "bold")
         .text(title)
     )
+    .call((g) => g.selectAll(".tick > line").attr("stroke-opacity", 0.5))
 
 const xAxisGraph = (g, x) =>
   g
+    .attr("transform", `translate(0, ${margin.top})`)
     .call(
       d3
         .axisBottom(x)
-        .ticks(width / 80)
-        .tickSize(graphHeight - margin.bottom)
+        .ticks(width / 100)
+        .tickSize(graphHeight - margin.bottom * 0.6)
         .tickSizeOuter(0)
     )
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll(".tick > text").attr("fill", textColor))
     .call((g) =>
       g
         .selectAll(".tick > line")
-        .attr("stroke", textColor)
         .attr("stroke-opacity", 0.5)
         .attr("stroke-dasharray", "2,2")
     )
@@ -201,7 +193,7 @@ async function main() {
   const brushed = ({ selection: slct }) => {
     if (!slct) brushg.call(brush.move, defaultSelection)
     else {
-      cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.utcDay.round))
+      cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.timeDay.round))
       cx_svg.dispatch("input")
     }
   }
@@ -228,11 +220,21 @@ async function main() {
     .attr("viewBox", [0, 0, width, graphHeight])
     .attr("preserveAspectRatio", "xMinYMin meet")
 
+  // Add graph title
+  plot
+    .append("text")
+    .attr("y", 12)
+    .attr("x", 0)
+    .attr("font-size", 10)
+    .attr("font-family", "sans-serif")
+    .attr("font-weight", "bold")
+    .text("Listening history (artists)")
+
   // Graph scales
-  const plotX = d3.scaleTime().range([margin.left, width - margin.right])
+  const plotX = d3.scaleTime().range([0, width - margin.right])
   const plotY = d3
     .scaleLinear()
-    .range([graphHeight - margin.bottom, margin.top])
+    .range([graphHeight - margin.bottom / 2, margin.top])
 
   // Graph generators
   const stack = d3
@@ -248,29 +250,13 @@ async function main() {
     .y1((d) => plotY(d[1]))
 
   // Plot groups
-  const streamgraph = plot.append("g")
   const streamgraphX = plot.append("g")
+  const streamgraph = plot.append("g")
 
   // Register brush event handler
   cx_svg.on("input", ({ target }) => {
     const [min, max] = [target.value[0], d3.timeDay.offset(target.value[1], 1)]
     const dateRange = d3.timeMondays(min, max)
-
-    // // Select top k scrobbled artists
-    // const topArtists = d3
-    //   .quickselect(artistCounts, k, 0, artistCounts.length - 1, comparator)
-    //   .slice(0, k)
-    //   .map((d) => d[0])
-
-    // Extract the scrobbles of each top artist for each time interval
-    // const dataWindow = []
-    // dateRange.forEach((date) => {
-    //   let d = weeklyArtistCounts.get(date)
-    //   if (d) {
-    //     let dObj = topArtists.map((track) => [track, d.get(track) || 0])
-    //     dataWindow.push({ date, ...Object.fromEntries(dObj) })
-    //   }
-    // })
 
     // Get the overall scrobble counts for the selected window
     const artistCounts = Array.from(
@@ -315,17 +301,17 @@ async function main() {
     //   .domain(artists)
     //   .range(d3.range(artists.length).map((d) => (d / artists.length) * 360))
 
-    const cutoff = (artists.length - 1) / 2
+    const middle = (artists.length - 1) / 2
     const colorScale = d3
       .scaleSequential(d3.interpolateInferno)
-      .domain([0, cutoff])
+      .domain([0, middle])
 
     streamgraphX.call(xAxisGraph, plotX)
     streamgraph
       .selectAll("path")
       .data(series)
       .join("path")
-      .attr("fill", ({ index }) => colorScale(Math.abs(index - cutoff)))
+      .attr("fill", ({ index }) => colorScale(Math.abs(index - middle)))
       .attr("d", area)
       .append("title")
       .text(({ key }) => key)
