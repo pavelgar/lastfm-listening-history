@@ -65,6 +65,7 @@ const getDayilyScrobbles = (data) => {
   }))
 }
 
+// Function for counting scrobbles by some interval (e.g. weeks or days)
 const getCounts = (d, by, accessor) =>
   d3.rollup(
     d,
@@ -72,6 +73,16 @@ const getCounts = (d, by, accessor) =>
     (d) => by(d.date),
     accessor
   )
+
+const addTitle = (g, title, fontSize = 10) =>
+  g
+    .append("text")
+    .attr("y", fontSize)
+    .attr("x", fontSize)
+    .attr("font-size", fontSize)
+    .attr("font-family", "sans-serif")
+    .attr("font-weight", "bold")
+    .text(title)
 
 // ##################################
 //  AXIS FUNCTIONS
@@ -87,21 +98,11 @@ const xAxis = (g, x) =>
         .attr("transform", "rotate(45) translate(8 0)")
     )
 
-const yAxis = (g, y, title) =>
+const yAxis = (g, y) =>
   g
     .attr("transform", `translate(${margin.left}, 0)`)
     .call(d3.axisLeft(y).ticks(contextHeight / 40))
     .call((g) => g.select(".domain").remove())
-    .call((g) =>
-      g
-        .select(".tick:last-of-type text")
-        .clone()
-        .attr("x", -margin.left)
-        .attr("y", -margin.top)
-        .attr("text-anchor", "start")
-        .attr("font-weight", "bold")
-        .text(title)
-    )
     .call((g) => g.selectAll(".tick > line").attr("stroke-opacity", 0.5))
 
 const xAxisGraph = (g, x) =>
@@ -128,21 +129,23 @@ async function main() {
   // ##################################
   const data = await d3.csv(fileName, transformData)
   // Start and end day of the data
-  const dataExtent = d3.extent(data, (d) => d.date)
+  const dataTimeExtent = d3.extent(data, (d) => d.date)
+  // Offset the end to beginning of the next week to include the last week of data
+  dataTimeExtent[1] = d3.timeMonday.offset(dataTimeExtent[1], 1)
   // Every week between the beginning and the end of data
-  const thresholds = d3.timeWeeks(...dataExtent)
+  const weeks = d3.timeMondays(...dataTimeExtent)
 
   // Group data into bins
   const bins = d3
     .bin()
-    .domain(dataExtent)
-    .thresholds(thresholds)
+    .domain(dataTimeExtent)
+    .thresholds(weeks)
     .value((d) => d.date)(data)
 
   // Context X and Y
   const cxX = d3
     .scaleTime()
-    .domain(dataExtent)
+    .domain(dataTimeExtent)
     .range([margin.left, width - margin.right])
 
   const cxY = d3
@@ -158,6 +161,9 @@ async function main() {
     .append("svg")
     .attr("viewBox", [0, 0, width, contextHeight])
     .attr("preserveAspectRatio", "xMinYMin meet")
+
+  // Title
+  cx_svg.call(addTitle, "Weekly scrobbles")
 
   // Create the bars
   cx_svg
@@ -190,10 +196,10 @@ async function main() {
   //   }
   // }
 
-  const brushed = ({ selection: slct }) => {
+  const brushended = ({ selection: slct }) => {
     if (!slct) brushg.call(brush.move, defaultSelection)
     else {
-      cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.timeDay.round))
+      cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.utcDay.round))
       cx_svg.dispatch("input")
     }
   }
@@ -205,8 +211,8 @@ async function main() {
       [margin.left, 0.5],
       [width - margin.right, contextHeight - margin.bottom - 0.5],
     ])
-    .on("end", brushed)
-  // .on("end", brushended)
+    // .on("brush", brushed)
+    .on("end", brushended)
 
   // ##################################
   //  STREAMGRAPH
@@ -214,107 +220,95 @@ async function main() {
   // Count scrobbles for each artist by week
   const weeklyArtistCounts = getCounts(data, d3.timeMonday, (d) => d.artist)
 
-  // The graph container
-  const plot = container
-    .append("svg")
-    .attr("viewBox", [0, 0, width, graphHeight])
-    .attr("preserveAspectRatio", "xMinYMin meet")
+  // Count the overall scrobbles for each artist
+  const overallScrobbles = Array.from(
+    d3.rollup(
+      data,
+      (v) => v.length,
+      (d) => d.artist
+    )
+  )
+    // .filter((d) => d[1] > 1) // Filter out the 'one-off' artists
+    .sort((a, b) => b[1] - a[1])
 
-  // Add graph title
-  plot
-    .append("text")
-    .attr("y", 12)
-    .attr("x", 0)
-    .attr("font-size", 10)
-    .attr("font-family", "sans-serif")
-    .attr("font-weight", "bold")
-    .text("Listening history (artists)")
+  console.log(overallScrobbles)
+
+  // Get all the artists as a list
+  const artists = overallScrobbles.map((d) => d[0])
+  const zeroWeek = artists.map((track) => [track, 0])
+
+  // Mirror the color scale about the middle
+  const middle = (artists.length - 1) / 2
+  const colorScale = d3
+    .scaleSequential(d3.interpolateInferno)
+    .domain([0, middle])
+
+  // Fill missing data points
+  const stackData = weeks.map((date) => {
+    let d = weeklyArtistCounts.get(date)
+    let dObj = zeroWeek.slice()
+    if (d) dObj = artists.map((track) => [track, d.get(track) || 0])
+    return { date, ...Object.fromEntries(dObj) }
+  })
+
+  // the stack series
+  const series = d3
+    .stack()
+    .keys(artists)
+    .order(d3.stackOrderInsideOut)
+    .offset(d3.stackOffsetWiggle)(stackData)
 
   // Graph scales
   const plotX = d3.scaleTime().range([0, width - margin.right])
   const plotY = d3
     .scaleLinear()
+    .domain([
+      d3.min(series, (d) => d3.min(d, (t) => t[0])),
+      d3.max(series, (d) => d3.max(d, (t) => t[1])),
+    ])
     .range([graphHeight - margin.bottom / 2, margin.top])
 
-  // Graph generators
-  const stack = d3
-    .stack()
-    .order(d3.stackOrderInsideOut)
-    .offset(d3.stackOffsetWiggle)
-
-  const area = d3
+  // Area generator function (with smoothing)
+  const areaGen = d3
     .area()
     .curve(d3.curveMonotoneX)
     .x((d) => plotX(d.data.date))
     .y0((d) => plotY(d[0]))
     .y1((d) => plotY(d[1]))
 
-  // Plot groups
-  const streamgraphX = plot.append("g")
-  const streamgraph = plot.append("g")
+  // The graph container
+  const plot = container
+    .append("svg")
+    .attr("viewBox", [0, 0, width, graphHeight])
+    .attr("preserveAspectRatio", "xMinYMin meet")
+
+  // X-axis container
+  const gx = plot.append("g")
+
+  // Add a title
+  plot.call(addTitle, "Listening history (artists)")
+
+  // Area container
+  const area = plot.append("g")
+
+  // Add the data
+  area
+    .selectAll("path")
+    .data(series)
+    .join("path")
+    .attr("fill", ({ index }) => colorScale(Math.abs(index - middle)))
 
   // Register brush event handler
   cx_svg.on("input", ({ target }) => {
     const [min, max] = [target.value[0], d3.timeDay.offset(target.value[1], 1)]
     const dateRange = d3.timeMondays(min, max)
 
-    // Get the overall scrobble counts for the selected window
-    const artistCounts = Array.from(
-      d3.rollup(
-        data.filter(({ date }) => date > min && date < max),
-        (v) => v.length,
-        (d) => d.artist
-      )
-    ).sort((a, b) => b[1] - a[1])
-    const artists = artistCounts.map((d) => d[0])
-
-    const dataWindow = []
-    dateRange.forEach((date) => {
-      let d = weeklyArtistCounts.get(date)
-      if (d) {
-        let dObj = artists.map((track) => [track, d.get(track) || 0])
-        dataWindow.push({ date, ...Object.fromEntries(dObj) })
-      }
-    })
-
-    if (dataWindow.length != dateRange.length)
-      console.log("Missing weeks!!!", dataWindow.length, dateRange.length)
-
-    // Generate the series based on the data window
-    const series = stack.keys(artists)(dataWindow)
-
-    // Update the axis
+    // Update the x and y scales
     plotX.domain(d3.extent(dateRange))
-    plotY.domain([
-      d3.min(series, (d) => d3.min(d, (d) => d[0])),
-      d3.max(series, (d) => d3.max(d, (d) => d[1])),
-    ])
 
-    // // Map colors to artists
-    // const artistSat = d3
-    //   .scaleOrdinal()
-    //   .domain(artists)
-    //   .range(artists.map((_, i) => saturationScale(i)))
-
-    // const artistHue = d3
-    //   .scaleOrdinal()
-    //   .domain(artists)
-    //   .range(d3.range(artists.length).map((d) => (d / artists.length) * 360))
-
-    const middle = (artists.length - 1) / 2
-    const colorScale = d3
-      .scaleSequential(d3.interpolateInferno)
-      .domain([0, middle])
-
-    streamgraphX.call(xAxisGraph, plotX)
-    streamgraph
-      .selectAll("path")
-      .data(series)
-      .join("path")
-      .attr("fill", ({ index }) => colorScale(Math.abs(index - middle)))
-      .attr("d", area)
-      .append("title")
-      .text(({ key }) => key)
+    // Update the graph
+    gx.call(xAxisGraph, plotX)
+    area.selectAll("path").attr("d", areaGen)
   })
 
   // Create the brush and move it into default position.
