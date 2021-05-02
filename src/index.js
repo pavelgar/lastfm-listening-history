@@ -4,9 +4,14 @@
 
 const fileName = "data/ts_scrobbles.csv"
 const margin = { top: 20, right: 30, bottom: 60, left: 40 }
+// Width of the graph containers
 const width = 1200 - margin.left - margin.right
+// Actual width of the context graph
+const contextWidth = width - margin.left - margin.right
+// Height of the graph containers
 const contextHeight = 250 - margin.top - margin.bottom
 const graphHeight = 600 - margin.top - margin.bottom
+const minScrobbles = 2 // Filter out the "one-off" artists
 const genres = [
   "rock",
   "pop",
@@ -33,37 +38,15 @@ const container = d3.select("div#plot-container")
 //  DATA PROCESSING FUNCTIONS
 // ##################################
 
-const parseTime = d3.timeParse("%Y-%m-%d")
+const parseTime = d3.timeParse("%Y-%m-%d %H:%M:S%Z")
 
 const transformData = ({ ts, track, artist, album }) => ({
-  date: parseTime(ts.split(" ")[0]),
+  date: new Date(ts),
   track,
   artist,
   album,
   genre: genres[~~(Math.random() * genres.length)],
 })
-
-const addDays = (date, days) => {
-  var result = new Date(date)
-  result.setDate(result.getDate() + days)
-  return result
-}
-
-const getDayilyScrobbles = (data) => {
-  let start = data[data.length - 1].date
-  let end = addDays(data[0].date, 1)
-  let days = d3.timeDays(start, end)
-  let scrobbleCounts = d3.rollup(
-    data, // Get scrobble counts
-    (v) => v.length, // Counts
-    (d) => d.date // Combine by Date
-  )
-
-  return days.map((date) => ({
-    date,
-    count: scrobbleCounts.get(date) || 0,
-  }))
-}
 
 // Function for counting scrobbles by some interval (e.g. weeks or days)
 const getCounts = (d, by, accessor) =>
@@ -168,7 +151,7 @@ async function main() {
   // Create the bars
   cx_svg
     .insert("g", ":first-child")
-    .attr("fill", "steelblue")
+    .classed("bars", true)
     .selectAll("rect")
     .data(bins)
     .join("rect")
@@ -187,19 +170,10 @@ async function main() {
   // Set default selection to beginning of the latest year
   const defaultSelection = [cxX(d3.timeYear(cxX.domain()[1])), cxX.range()[1]]
 
-  // Brush functions
-  // const brushed = ({ selection: slct }) => {
-  //   // Updates the currently selected range and triggers "input" callbacks.
-  //   if (slct) {
-  //     cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.utcDay.round))
-  //     cx_svg.dispatch("input")
-  //   }
-  // }
-
-  const brushended = ({ selection: slct }) => {
-    if (!slct) brushg.call(brush.move, defaultSelection)
+  const brushended = ({ selection }) => {
+    if (!selection) brushg.call(brush.move, defaultSelection)
     else {
-      cx_svg.property("value", slct.map(cxX.invert, cxX).map(d3.utcDay.round))
+      cx_svg.property("value", selection)
       cx_svg.dispatch("input")
     }
   }
@@ -211,7 +185,6 @@ async function main() {
       [margin.left, 0.5],
       [width - margin.right, contextHeight - margin.bottom - 0.5],
     ])
-    // .on("brush", brushed)
     .on("end", brushended)
 
   // ##################################
@@ -221,27 +194,25 @@ async function main() {
   const weeklyArtistCounts = getCounts(data, d3.timeMonday, (d) => d.artist)
 
   // Count the overall scrobbles for each artist
-  const overallScrobbles = Array.from(
-    d3.rollup(
-      data,
-      (v) => v.length,
-      (d) => d.artist
-    )
+  const overallScrobbles = d3.rollup(
+    data,
+    (v) => v.length,
+    (d) => d.artist
   )
-    // .filter((d) => d[1] > 1) // Filter out the 'one-off' artists
-    .sort((a, b) => b[1] - a[1])
-
-  console.log(overallScrobbles)
 
   // Get all the artists as a list
-  const artists = overallScrobbles.map((d) => d[0])
-  const zeroWeek = artists.map((track) => [track, 0])
+  const artists = Array.from(overallScrobbles)
+    .filter((d) => d[1] >= minScrobbles)
+    .map((d) => d[0])
 
   // Mirror the color scale about the middle
   const middle = (artists.length - 1) / 2
   const colorScale = d3
     .scaleSequential(d3.interpolateInferno)
     .domain([0, middle])
+
+  // Generate a base week
+  const zeroWeek = artists.map((track) => [track, 0])
 
   // Fill missing data points
   const stackData = weeks.map((date) => {
@@ -251,7 +222,7 @@ async function main() {
     return { date, ...Object.fromEntries(dObj) }
   })
 
-  // the stack series
+  // Generate a series representation of the data
   const series = d3
     .stack()
     .keys(artists)
@@ -259,7 +230,7 @@ async function main() {
     .offset(d3.stackOffsetWiggle)(stackData)
 
   // Graph scales
-  const plotX = d3.scaleTime().range([0, width - margin.right])
+  const plotX = cxX.copy().range([0, width])
   const plotY = d3
     .scaleLinear()
     .domain([
@@ -282,6 +253,17 @@ async function main() {
     .attr("viewBox", [0, 0, width, graphHeight])
     .attr("preserveAspectRatio", "xMinYMin meet")
 
+  // Add a clipPath: everything out of this area won't be drawn.
+  const clipID = "clip"
+  plot
+    .append("clipPath")
+    .attr("id", clipID)
+    .append("rect")
+    .attr("x", 0)
+    .attr("y", margin.top)
+    .attr("width", width)
+    .attr("height", graphHeight - margin.top - margin.bottom / 2)
+
   // X-axis container
   const gx = plot.append("g")
 
@@ -289,26 +271,156 @@ async function main() {
   plot.call(addTitle, "Listening history (artists)")
 
   // Area container
-  const area = plot.append("g")
+  const area = plot
+    .append("g")
+    .attr("clip-path", `url(#${clipID})`)
+    .attr("stroke", colorScale(0))
+    .attr("stroke-width", 0)
 
-  // Add the data
+  // Legend
+  const legendFontSize = 10
+  const legendPadding = legendFontSize / 2
+  const legendWidth = width / 7
+  const legendHeight = (legendFontSize + legendPadding) * 4 + legendPadding
+  const legend = plot
+    .append("g")
+    .classed("legend-area", true)
+    .attr("font-size", legendFontSize)
+    .attr(
+      "transform",
+      `translate(${width - legendWidth - margin.right}, ${
+        graphHeight - legendHeight - margin.bottom
+      })`
+    )
+
+  legend
+    .append("rect")
+    .attr("fill", "rgb(251, 253, 255)")
+    .attr("stroke", "black")
+    .attr("stroke-width", 1)
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", legendWidth)
+    .attr("height", legendHeight)
+
+  // Legend title
+  legend
+    .append("text")
+    .classed("legend-mean", true)
+    .attr("x", legendPadding)
+    .attr("y", legendFontSize + legendPadding)
+    .attr("font-weight", "bold")
+    .text("Current view")
+
+  // Legend total
+  const legendTotal = legend
+    .append("text")
+    .attr("x", legendPadding)
+    .attr("y", (legendFontSize + legendPadding) * 2)
+    .text("Total: 500 scrobbles")
+
+  // Legend mean
+  const legendMean = legend
+    .append("text")
+    .attr("x", legendPadding)
+    .attr("y", (legendFontSize + legendPadding) * 3)
+    .text("Mean: 50 scrobbles/week")
+
+  // Legend median
+  const legendMedian = legend
+    .append("text")
+    .attr("x", legendPadding)
+    .attr("y", (legendFontSize + legendPadding) * 4)
+    .text("Median: 70 scrobbles/week")
+
+  // Tooltip
+  const tooltipFontSize = 12
+  const tooltip = plot
+    .append("g")
+    .classed("tooltip-area", true)
+    .attr("font-size", tooltipFontSize)
+    .attr("opacity", 0)
+  // Artist name
+  tooltip
+    .append("text")
+    .classed("tooltip-artist", true)
+    .attr("x", tooltipFontSize)
+    .attr("y", 0)
+  // Scrobble counts
+  tooltip
+    .append("text")
+    .classed("tooltip-scrobbles", true)
+    .attr("x", tooltipFontSize)
+    .attr("y", tooltipFontSize)
+
+  // Mouse entering event
+  const mouseover = (e, d) => {
+    // Update areas
+    area
+      .selectAll("path")
+      .transition()
+      .duration(250)
+      .attr("opacity", (a) => (a.index == d.index ? 1 : 0.5))
+    d3.select(e.target).attr("stroke-width", 0.1)
+
+    // Update tooltip
+    const [min, max] = cx_svg.property("value").map(cxX.invert, cxX)
+    const window = d.filter((s) => s.data.date >= min && s.data.date <= max)
+    const count = d3.sum(window, (a) => a.data[d.key])
+    tooltip.select("text.tooltip-artist").text(d.key)
+    tooltip.select("text.tooltip-scrobbles").text(count + " scrobbles")
+    tooltip.attr("opacity", 1)
+  }
+
+  // Mouse moving event
+  const mousemove = (e) => {
+    // Update tooltip position to mouse position
+    const pos = d3.pointer(e, plot.node())
+    tooltip.attr("transform", `translate(${pos})`)
+  }
+
+  // Mouse exiting event
+  const mouseout = (e) => {
+    // Set everything back to initial state
+    area.selectAll("path").transition().duration(250).attr("opacity", 1)
+    d3.select(e.target).attr("stroke-width", 0)
+    tooltip.attr("opacity", 0)
+  }
+
+  // Render the graph
   area
     .selectAll("path")
     .data(series)
     .join("path")
+    .attr("d", areaGen)
     .attr("fill", ({ index }) => colorScale(Math.abs(index - middle)))
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseout", mouseout)
 
   // Register brush event handler
   cx_svg.on("input", ({ target }) => {
-    const [min, max] = [target.value[0], d3.timeDay.offset(target.value[1], 1)]
-    const dateRange = d3.timeMondays(min, max)
+    // Normalize the given values of the context graph
+    const [min, max] = target.value.map((v) => v - margin.left)
+    // Get the corresponding start and end dates
+    const extent = target.value.map(cxX.invert, cxX) //.map(d3.utcDay.round)
+    // Update the x axis
+    plotX.domain(extent)
+    gx.transition().duration(500).call(xAxisGraph, plotX)
 
-    // Update the x and y scales
-    plotX.domain(d3.extent(dateRange))
+    // TODO: Update the legend info
+    // const dateWindow = d3.timeMondays(...extent)
+    // d3.sum(dateWindow.map(d => weeklyArtistCounts.get(d)))
 
-    // Update the graph
-    gx.call(xAxisGraph, plotX)
-    area.selectAll("path").attr("d", areaGen)
+    // Calculate the scaling factor and translation amount
+    const scaling = contextWidth / (max - min)
+    const translation = -width * (min / contextWidth) * scaling
+
+    // Update the area transformation
+    area
+      .transition()
+      .duration(500)
+      .attr("transform", `translate(${translation}, 0) scale(${scaling}, 1)`)
   })
 
   // Create the brush and move it into default position.

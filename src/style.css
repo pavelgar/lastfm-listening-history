@@ -1,4 +1,18 @@
-.area {
-  fill: steelblue;
-  /* clip-path: url(#clip); */
+body {
+  font-family: sans-serif;
+  background-color: rgb(251, 253, 255);
+}
+
+.tooltip-area {
+  fill: white;
+  text-shadow: 1px 1px 2px black;
+  pointer-events: none;
+}
+
+.tooltip-artist {
+  font-weight: bold;
+}
+
+.bars {
+  fill: #d51007;
 }
