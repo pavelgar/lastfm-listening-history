@@ -2,7 +2,7 @@
 //  CONSTANTS
 // ##################################
 
-const fileName = "data/ts_scrobbles.csv"
+const fileName = "./src/data/ts_scrobbles.csv"
 const margin = { top: 20, right: 30, bottom: 60, left: 40 }
 // Width of the graph containers
 const width = 1200 - margin.left - margin.right
