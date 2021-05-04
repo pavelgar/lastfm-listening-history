@@ -86,7 +86,7 @@ const yAxis = (g, y) =>
     .attr("transform", `translate(${margin.left}, 0)`)
     .call(d3.axisLeft(y).ticks(contextHeight / 40))
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll(".tick > line").attr("stroke-opacity", 0.5))
+    .call((g) => g.selectAll(".tick > line").attr("stroke-opacity", 0.6))
 
 const xAxisGraph = (g, x) =>
   g
@@ -113,8 +113,6 @@ async function main() {
   const data = await d3.csv(fileName, transformData)
   // Start and end day of the data
   const dataTimeExtent = d3.extent(data, (d) => d.date)
-  // Offset the end to beginning of the next week to include the last week of data
-  dataTimeExtent[1] = d3.timeMonday.offset(dataTimeExtent[1], 1)
   // Every week between the beginning and the end of data
   const weeks = d3.timeMondays(...dataTimeExtent)
 
@@ -253,9 +251,11 @@ async function main() {
     .attr("viewBox", [0, 0, width, graphHeight])
     .attr("preserveAspectRatio", "xMinYMin meet")
 
+  const plotDefs = plot.append("defs")
+
   // Add a clipPath: everything out of this area won't be drawn.
   const clipID = "clip"
-  plot
+  plotDefs
     .append("clipPath")
     .attr("id", clipID)
     .append("rect")
@@ -263,6 +263,28 @@ async function main() {
     .attr("y", margin.top)
     .attr("width", width)
     .attr("height", graphHeight - margin.top - margin.bottom / 2)
+
+  // Drop shadow
+  const dropShadowID = "plot-dropshadow"
+  const shadowFilter = plotDefs
+    .append("filter")
+    .attr("id", dropShadowID)
+    .attr("height", "130%")
+  shadowFilter
+    .append("feGaussianBlur")
+    .attr("in", "sourceAlpha")
+    .attr("stdDeviation", 3)
+    .attr("result", "blur")
+  shadowFilter
+    .append("feOffset")
+    .attr("in", "blur")
+    .attr("dx", 3)
+    .attr("dy", 3)
+    .attr("result", "offsetBlur")
+
+  const feMerge = shadowFilter.append("feMerge")
+  feMerge.append("feMergeNode").attr("in", "offsetBlur")
+  feMerge.append("feMergeNode").attr("in", "SourceGraphic")
 
   // X-axis container
   const gx = plot.append("g")
@@ -295,43 +317,42 @@ async function main() {
 
   legend
     .append("rect")
+    .style("filter", `url(#${dropShadowID})`)
     .attr("fill", "rgb(251, 253, 255)")
     .attr("stroke", "black")
     .attr("stroke-width", 1)
     .attr("x", 0)
     .attr("y", 0)
+    .attr("rx", 2)
+    .attr("ry", 2)
     .attr("width", legendWidth)
     .attr("height", legendHeight)
 
   // Legend title
-  legend
+  const legendTitle = legend
     .append("text")
     .classed("legend-mean", true)
     .attr("x", legendPadding)
     .attr("y", legendFontSize + legendPadding)
     .attr("font-weight", "bold")
-    .text("Current view")
 
   // Legend total
   const legendTotal = legend
     .append("text")
     .attr("x", legendPadding)
     .attr("y", (legendFontSize + legendPadding) * 2)
-    .text("Total: 500 scrobbles")
 
   // Legend mean
   const legendMean = legend
     .append("text")
     .attr("x", legendPadding)
     .attr("y", (legendFontSize + legendPadding) * 3)
-    .text("Mean: 50 scrobbles/week")
 
   // Legend median
   const legendMedian = legend
     .append("text")
     .attr("x", legendPadding)
     .attr("y", (legendFontSize + legendPadding) * 4)
-    .text("Median: 70 scrobbles/week")
 
   // Tooltip
   const tooltipFontSize = 12
@@ -368,7 +389,7 @@ async function main() {
     const window = d.filter((s) => s.data.date >= min && s.data.date <= max)
     const count = d3.sum(window, (a) => a.data[d.key])
     tooltip.select("text.tooltip-artist").text(d.key)
-    tooltip.select("text.tooltip-scrobbles").text(count + " scrobbles")
+    tooltip.select("text.tooltip-scrobbles").text(`${count} scrobbles`)
     tooltip.attr("opacity", 1)
   }
 
@@ -406,11 +427,27 @@ async function main() {
     const extent = target.value.map(cxX.invert, cxX) //.map(d3.utcDay.round)
     // Update the x axis
     plotX.domain(extent)
-    gx.transition().duration(500).call(xAxisGraph, plotX)
+    const t = d3.transition().duration(500)
+    gx.transition(t).call(xAxisGraph, plotX)
 
-    // TODO: Update the legend info
-    // const dateWindow = d3.timeMondays(...extent)
-    // d3.sum(dateWindow.map(d => weeklyArtistCounts.get(d)))
+    // Update the legend info
+    const dataWindow = data.filter(
+      (d) => d.date >= extent[0] && d.date <= extent[1]
+    )
+
+    const dataWindowWeekly = d3.rollup(
+      dataWindow,
+      (v) => v.length,
+      (d) => d3.timeDay(d.date)
+    )
+    const weeks = d3.timeMonday.count(...extent)
+    const mean = d3.mean(dataWindowWeekly, (d) => d[1])
+    const median = d3.median(dataWindowWeekly, (d) => d[1])
+
+    legendTitle.text(`Current view (${weeks} weeks)`)
+    legendTotal.text(`Total: ${dataWindow.length} scrobbles`)
+    legendMean.text(`Mean: ${Math.round(mean)} scrobbles/day`)
+    legendMedian.text(`Median: ${median} scrobbles/day`)
 
     // Calculate the scaling factor and translation amount
     const scaling = contextWidth / (max - min)
@@ -418,8 +455,7 @@ async function main() {
 
     // Update the area transformation
     area
-      .transition()
-      .duration(500)
+      .transition(t)
       .attr("transform", `translate(${translation}, 0) scale(${scaling}, 1)`)
   })
 
