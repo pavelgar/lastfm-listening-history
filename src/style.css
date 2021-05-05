@@ -16,3 +16,7 @@ body {
 .bars {
   fill: #d51007;
 }
+
+.streams {
+  stroke: #000004;
+}

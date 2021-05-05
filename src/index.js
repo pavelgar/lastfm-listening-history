@@ -191,6 +191,9 @@ async function main() {
   // Count scrobbles for each artist by week
   const weeklyArtistCounts = getCounts(data, d3.timeMonday, (d) => d.artist)
 
+  // Store current window for small calculations
+  let window = []
+
   // Count the overall scrobbles for each artist
   const overallScrobbles = d3.rollup(
     data,
@@ -253,17 +256,6 @@ async function main() {
 
   const plotDefs = plot.append("defs")
 
-  // Add a clipPath: everything out of this area won't be drawn.
-  const clipID = "clip"
-  plotDefs
-    .append("clipPath")
-    .attr("id", clipID)
-    .append("rect")
-    .attr("x", 0)
-    .attr("y", margin.top)
-    .attr("width", width)
-    .attr("height", graphHeight - margin.top - margin.bottom / 2)
-
   // Drop shadow
   const dropShadowID = "plot-dropshadow"
   const shadowFilter = plotDefs
@@ -295,7 +287,7 @@ async function main() {
   // Area container
   const area = plot
     .append("g")
-    .attr("clip-path", `url(#${clipID})`)
+    .classed("streams", true)
     .attr("stroke", colorScale(0))
     .attr("stroke-width", 0)
 
@@ -374,20 +366,22 @@ async function main() {
     .attr("x", tooltipFontSize)
     .attr("y", tooltipFontSize)
 
+  // Render the streams
+  const streams = area
+    .selectAll("path")
+    .data(series)
+    .join("path")
+    .attr("d", areaGen)
+    .attr("fill", ({ index }) => colorScale(Math.abs(index - middle)))
+
   // Mouse entering event
-  const mouseover = (e, d) => {
+  const mouseenter = (e, d) => {
     // Update areas
-    area
-      .selectAll("path")
-      .transition()
-      .duration(250)
-      .attr("opacity", (a) => (a.index == d.index ? 1 : 0.5))
-    d3.select(e.target).attr("stroke-width", 0.1)
+    streams.attr("fill-opacity", 0.5)
+    d3.select(e.target).attr("stroke-width", 0.1).attr("fill-opacity", 1)
 
     // Update tooltip
-    const [min, max] = cx_svg.property("value").map(cxX.invert, cxX)
-    const window = d.filter((s) => s.data.date >= min && s.data.date <= max)
-    const count = d3.sum(window, (a) => a.data[d.key])
+    let count = window.filter((s) => s.artist == d.key).length
     tooltip.select("text.tooltip-artist").text(d.key)
     tooltip.select("text.tooltip-scrobbles").text(`${count} scrobbles`)
     tooltip.attr("opacity", 1)
@@ -401,23 +395,17 @@ async function main() {
   }
 
   // Mouse exiting event
-  const mouseout = (e) => {
+  const mouseleave = (e) => {
     // Set everything back to initial state
-    area.selectAll("path").transition().duration(250).attr("opacity", 1)
+    streams.attr("fill-opacity", 1)
     d3.select(e.target).attr("stroke-width", 0)
     tooltip.attr("opacity", 0)
   }
 
-  // Render the graph
-  area
-    .selectAll("path")
-    .data(series)
-    .join("path")
-    .attr("d", areaGen)
-    .attr("fill", ({ index }) => colorScale(Math.abs(index - middle)))
-    .on("mouseover", mouseover)
+  streams
+    .on("mouseenter", mouseenter)
     .on("mousemove", mousemove)
-    .on("mouseout", mouseout)
+    .on("mouseleave", mouseleave)
 
   // Register brush event handler
   cx_svg.on("input", ({ target }) => {
@@ -431,21 +419,19 @@ async function main() {
     gx.transition(t).call(xAxisGraph, plotX)
 
     // Update the legend info
-    const dataWindow = data.filter(
-      (d) => d.date >= extent[0] && d.date <= extent[1]
-    )
+    window = data.filter((d) => d.date >= extent[0] && d.date <= extent[1])
 
-    const dataWindowWeekly = d3.rollup(
-      dataWindow,
+    const dailyWindow = d3.rollup(
+      window,
       (v) => v.length,
       (d) => d3.timeDay(d.date)
     )
     const weeks = d3.timeMonday.count(...extent)
-    const mean = d3.mean(dataWindowWeekly, (d) => d[1])
-    const median = d3.median(dataWindowWeekly, (d) => d[1])
+    const mean = d3.mean(dailyWindow, (d) => d[1])
+    const median = d3.median(dailyWindow, (d) => d[1])
 
     legendTitle.text(`Current view (${weeks} weeks)`)
-    legendTotal.text(`Total: ${dataWindow.length} scrobbles`)
+    legendTotal.text(`Total: ${window.length} scrobbles`)
     legendMean.text(`Mean: ${Math.round(mean)} scrobbles/day`)
     legendMedian.text(`Median: ${median} scrobbles/day`)
 
