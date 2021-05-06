@@ -11,7 +11,6 @@ const contextWidth = width - margin.left - margin.right
 // Height of the graph containers
 const contextHeight = 250 - margin.top - margin.bottom
 const graphHeight = 600 - margin.top - margin.bottom
-const minScrobbles = 2 // Filter out the "one-off" artists
 const genres = [
   "rock",
   "pop",
@@ -202,9 +201,7 @@ async function main() {
   )
 
   // Get all the artists as a list
-  const artists = Array.from(overallScrobbles)
-    .filter((d) => d[1] >= minScrobbles)
-    .map((d) => d[0])
+  const artists = Array.from(overallScrobbles.keys())
 
   // Mirror the color scale about the middle
   const middle = (artists.length - 1) / 2
@@ -296,16 +293,13 @@ async function main() {
   const legendPadding = legendFontSize / 2
   const legendWidth = width / 7
   const legendHeight = (legendFontSize + legendPadding) * 4 + legendPadding
+  const legendX = width - legendWidth - margin.right
+  const legendY = graphHeight - legendHeight - margin.bottom
   const legend = plot
     .append("g")
     .classed("legend-area", true)
     .attr("font-size", legendFontSize)
-    .attr(
-      "transform",
-      `translate(${width - legendWidth - margin.right}, ${
-        graphHeight - legendHeight - margin.bottom
-      })`
-    )
+    .attr("transform", `translate(${legendX}, ${legendY})`)
 
   legend
     .append("rect")
