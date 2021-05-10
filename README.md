@@ -1,17 +1,7 @@
-# LastFM listening history
+# Last.fm listening history
 
-Here I prototype the creation of an interactive data visualization web app,
-which will show a [last.fm](https://last.fm) user's listening history and
-the top tracks, artist, albums and genres during a chosen time period.
-
-## Features
-
-## Technologies
-
-## Installation
-
-## Development
-
-## Licence
+Here I prototype an interactive data visualization web app,
+which shows my music listening history from [last.fm](https://last.fm).
+The visualization shows a streamgraph of artists and their relative popularity each week. Viewers can zoom in on a particular time period to explore the data in more detail.
 
 [MIT Licence](./LICENCE)
