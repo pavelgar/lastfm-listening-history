@@ -212,7 +212,8 @@ async function main() {
   // Mirror the color scale about the middle
   const middle = (artists.length - 1) / 2
   const colorScale = d3
-    .scaleSequential(d3.interpolateInferno)
+    .scaleSequentialPow(d3.interpolateInferno)
+    .exponent(0.5)
     .domain([0, middle])
 
   // Include the last week of data
