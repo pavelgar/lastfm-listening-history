@@ -1,4 +1,601 @@
 ts,track,artist,album
+2021-05-10 12:59:22+03:00,Parabola,Tool,Lateralus
+2021-05-10 12:56:17+03:00,Parabol,Tool,Lateralus
+2021-05-10 12:49:34+03:00,Schism,Tool,Lateralus
+2021-05-10 12:48:21+03:00,Mantra,Tool,Lateralus
+2021-05-10 12:41:07+03:00,The Patient,Tool,Lateralus
+2021-05-10 12:40:03+03:00,Eon Blue Apocalypse,Tool,Lateralus
+2021-05-10 12:31:28+03:00,The Grudge,Tool,Lateralus
+2021-05-10 12:26:25+03:00,Viginti Tres,Tool,"10,000 Days"
+2021-05-10 12:17:29+03:00,Right in Two,Tool,"10,000 Days"
+2021-05-10 12:10:08+03:00,Intension,Tool,"10,000 Days"
+2021-05-10 11:58:56+03:00,Rosetta Stoned,Tool,"10,000 Days"
+2021-05-10 11:55:10+03:00,Lost Keys (Blame Hofman),Tool,"10,000 Days"
+2021-05-10 11:53:59+03:00,Lipan Conjuring,Tool,"10,000 Days"
+2021-05-10 11:47:37+03:00,The Pot,Tool,"10,000 Days"
+2021-05-10 11:36:24+03:00,"10,000 Days (Wings Pt 2)",Tool,"10,000 Days"
+2021-05-10 11:30:12+03:00,Wings for Marie (Pt 1),Tool,"10,000 Days"
+2021-05-10 11:22:43+03:00,Jambi,Tool,"10,000 Days"
+2021-05-10 11:15:39+03:00,Vicarious,Tool,"10,000 Days"
+2021-05-10 11:09:38+03:00,Two-Headed Boy Pt. 2,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 11:04:45+03:00,Ghost,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:56:29+03:00,Oh Comely,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:48:12+03:00,Oh Comely,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:46:14+03:00,Communist Daughter,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:43:02+03:00,"Holland, 1945",Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:41:09+03:00,The Fool,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:36:42+03:00,Two-Headed Boy,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:33:20+03:00,In the Aeroplane Over the Sea,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:30:14+03:00,King of Carrot Flowers Pts. 2 & 3,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:28:08+03:00,King of Carrot Flowers Pt. 1,Neutral Milk Hotel,In the Aeroplane Over the Sea
+2021-05-10 10:22:40+03:00,The Tourist,Radiohead,OK Computer
+2021-05-10 10:18:21+03:00,Lucky,Radiohead,OK Computer
+2021-05-10 10:14:32+03:00,No Surprises,Radiohead,OK Computer
+2021-05-10 10:09:47+03:00,Climbing Up the Walls,Radiohead,OK Computer
+2021-05-10 10:05:56+03:00,Electioneering,Radiohead,OK Computer
+2021-05-10 10:03:58+03:00,Fitter Happier,Radiohead,OK Computer
+2021-05-10 09:59:37+03:00,Karma Police,Radiohead,OK Computer
+2021-05-10 09:55:03+03:00,Karma Police,Radiohead,OK Computer
+2021-05-10 09:50:04+03:00,Let Down,Radiohead,OK Computer
+2021-05-10 09:45:37+03:00,Exit Music (for a Film),Radiohead,OK Computer
+2021-05-10 09:41:09+03:00,Subterranean Homesick Alien,Radiohead,OK Computer
+2021-05-10 09:34:44+03:00,Paranoid Android,Radiohead,OK Computer
+2021-05-10 09:31:11+03:00,Airbag,Radiohead,OK Computer
+2021-05-08 22:20:42+03:00,VCR,The xx,xx
+2021-05-08 17:52:57+03:00,Intro,The xx,xx
+2021-05-08 17:49:42+03:00,Our Song,The xx,Coexist
+2021-05-08 17:44:43+03:00,Swept Away,The xx,Coexist
+2021-05-08 17:41:40+03:00,Unfold,The xx,Coexist
+2021-05-08 17:38:39+03:00,Tides,The xx,Coexist
+2021-05-08 17:35:06+03:00,Missing,The xx,Coexist
+2021-05-08 17:31:27+03:00,Sunset,The xx,Coexist
+2021-05-08 17:27:30+03:00,Reunion,The xx,Coexist
+2021-05-08 17:24:14+03:00,Try,The xx,Coexist
+2021-05-08 17:21:18+03:00,Fiction,The xx,Coexist
+2021-05-08 17:18:30+03:00,Chained,The xx,Coexist
+2021-05-08 17:15:39+03:00,Angels,The xx,Coexist
+2021-05-08 17:11:43+03:00,Test Me,The xx,I See You
+2021-05-08 15:17:15+03:00,I Dare You,The xx,I See You
+2021-05-08 15:13:31+03:00,On Hold,The xx,I See You
+2021-05-08 15:09:18+03:00,Brave For You,The xx,I See You
+2021-05-08 15:05:09+03:00,Replica,The xx,I See You
+2021-05-08 15:01:03+03:00,Performance,The xx,I See You
+2021-05-08 14:57:16+03:00,A Violent Noise,The xx,I See You
+2021-05-08 14:53:55+03:00,Lips,The xx,I See You
+2021-05-08 12:52:40+03:00,Say Something Loving,The xx,I See You
+2021-05-08 12:48:32+03:00,Dangerous,The xx,I See You
+2021-05-08 12:44:00+03:00,Stars,The xx,xx
+2021-05-08 12:28:15+03:00,Night Time,The xx,xx
+2021-05-08 12:23:02+03:00,Infinity,The xx,xx
+2021-05-08 12:19:54+03:00,Basic Space,The xx,xx
+2021-05-08 12:09:43+03:00,Shelter,The xx,xx
+2021-05-08 12:07:04+03:00,Fantasy,The xx,xx
+2021-05-08 12:03:02+03:00,Heart Skipped a Beat,The xx,xx
+2021-05-08 12:00:21+03:00,Islands,The xx,xx
+2021-05-08 11:56:59+03:00,Crystalised,The xx,xx
+2021-05-08 11:25:53+03:00,VCR,The xx,xx
+2021-05-08 11:23:47+03:00,Intro,The xx,xx
+2021-05-07 14:02:42+03:00,Willing & Able,Disclosure,Caracal (Deluxe)
+2021-05-06 16:03:15+03:00,Hourglass,Disclosure,Caracal (Deluxe)
+2021-05-06 15:58:01+03:00,Holding On (feat. Gregory Porter),Disclosure,Caracal (Deluxe)
+2021-05-06 15:54:10+03:00,Omen,Disclosure,Caracal (Deluxe)
+2021-05-06 15:47:25+03:00,Nocturnal,Disclosure,Caracal (Deluxe)
+2021-05-06 15:39:30+03:00,Running (Disclosure remix),Jessie Ware,Settle (Deluxe Version)
+2021-05-06 15:34:26+03:00,Tenderly,Disclosure,Settle (Deluxe Version)
+2021-05-06 15:28:55+03:00,What's in Your Head,Disclosure,Settle (Deluxe Version)
+2021-05-06 15:25:08+03:00,Boiling,Disclosure,Settle (Deluxe Version)
+2021-05-06 15:21:04+03:00,Help Me Lose My Mind (feat. London Grammar),Disclosure,Settle (Deluxe Version)
+2021-05-06 15:16:54+03:00,Confess to Me (feat. Jessie Ware),Disclosure,Settle (Deluxe Version)
+2021-05-06 15:10:59+03:00,January (feat. Jamie Woon),Disclosure,Settle (Deluxe Version)
+2021-05-06 15:06:33+03:00,You & Me (feat. Eliza Doolittle),Disclosure,Settle (Deluxe Version)
+2021-05-06 15:01:19+03:00,Grab Her!,Disclosure,Settle (Deluxe Version)
+2021-05-06 14:58:52+03:00,Second Chance,Disclosure,Settle (Deluxe Version)
+2021-05-06 14:54:43+03:00,Voices (feat. Sasha Keable),Disclosure,Settle (Deluxe Version)
+2021-05-06 14:49:23+03:00,Stimulation,Disclosure,Settle (Deluxe Version)
+2021-05-06 14:43:15+03:00,Defeated No More (feat. Ed Macfarlane),Disclosure,Settle (Deluxe Version)
+2021-05-06 14:38:38+03:00,White Noise (feat. AlunaGeorge),Disclosure,Settle (Deluxe Version)
+2021-05-06 14:34:09+03:00,F for You,Disclosure,Settle (Deluxe Version)
+2021-05-06 14:29:53+03:00,Latch (feat. Sam Smith),Disclosure,Settle (Deluxe Version)
+2021-05-06 14:25:10+03:00,When a Fire Starts to Burn,Disclosure,Settle (Deluxe Version)
+2021-05-04 20:30:01+03:00,Get Got,Death Grips,The Money Store
+2021-05-04 20:26:13+03:00,Death Grips 2.0,Death Grips,The Powers That B
+2021-05-04 20:20:06+03:00,On GP,Death Grips,The Powers That B
+2021-05-04 20:14:33+03:00,Centuries of Damn,Death Grips,The Powers That B
+2021-05-04 20:08:26+03:00,Beyond Alive,Death Grips,The Powers That B
+2021-05-04 20:02:53+03:00,The Powers That B,Death Grips,The Powers That B
+2021-05-04 19:58:20+03:00,PSS PSS,Death Grips,The Powers That B
+2021-05-04 19:53:39+03:00,Why a Bitch Gotta Lie,Death Grips,The Powers That B
+2021-05-04 19:49:01+03:00,Turned Off,Death Grips,The Powers That B
+2021-05-04 19:42:57+03:00,Inanimate Sensation,Death Grips,The Powers That B
+2021-05-04 19:40:16+03:00,I Break Mirrors With My Face in the United States,Death Grips,The Powers That B
+2021-05-04 19:34:48+03:00,Big Dipper,Death Grips,The Powers That B
+2021-05-04 19:31:19+03:00,Voila,Death Grips,The Powers That B
+2021-05-04 19:27:59+03:00,Fuck Me Out,Death Grips,The Powers That B
+2021-05-04 19:24:20+03:00,Have a Sad Cum BB,Death Grips,The Powers That B
+2021-05-04 19:20:52+03:00,Say Hey Kid,Death Grips,The Powers That B
+2021-05-04 19:17:53+03:00,Black Quarterback,Death Grips,The Powers That B
+2021-05-04 19:14:04+03:00,Billy Not Really,Death Grips,The Powers That B
+2021-05-04 19:08:50+03:00,Up My Sleeves,Death Grips,The Powers That B
+2021-05-03 12:28:24+03:00,Static,Godspeed You! Black Emperor,Lift Your Skinny Fists Like Antennas to Heaven
+2021-05-03 12:05:53+03:00,Storm,Godspeed You! Black Emperor,Lift Your Skinny Fists Like Antennas to Heaven
+2021-05-01 10:51:22+03:00,Padded Cell,Black Flag,Damaged
+2021-05-01 10:36:29+03:00,No More,Black Flag,Damaged
+2021-05-01 10:33:06+03:00,Damaged II,Black Flag,Damaged
+2021-05-01 10:31:02+03:00,Room 13,Black Flag,Damaged
+2021-05-01 10:28:33+03:00,Depression,Black Flag,Damaged
+2021-05-01 10:26:46+03:00,Gimmie Gimmie Gimmie,Black Flag,Damaged
+2021-05-01 10:25:13+03:00,Police Story,Black Flag,Damaged
+2021-05-01 10:23:07+03:00,Thirsty and Miserable,Black Flag,Damaged
+2021-05-01 10:19:36+03:00,TV Party,Black Flag,Damaged
+2021-05-01 10:17:40+03:00,What I See,Black Flag,Damaged
+2021-05-01 10:15:20+03:00,Six Pack,Black Flag,Damaged
+2021-05-01 10:14:46+03:00,Spray Paint,Black Flag,Damaged
+2021-05-01 10:12:22+03:00,Rise Above,Black Flag,Damaged
+2021-05-01 10:11:04+03:00,Punk Rock Song,Bad Religion,The Gray Race
+2021-05-01 10:06:58+03:00,Infected,Bad Religion,Stranger Than Fiction
+2021-05-01 00:01:53+03:00,In for a World of Hurt,Street Sects,The Kicking Mule
+2021-04-30 23:58:33+03:00,Still Between Lovers,Street Sects,The Kicking Mule
+2021-04-30 23:54:43+03:00,269 Soulmates,Street Sects,The Kicking Mule
+2021-04-30 23:52:51+03:00,"Birch Meadows, 1991",Street Sects,The Kicking Mule
+2021-04-30 23:48:52+03:00,269 Soulmates,Street Sects,The Kicking Mule
+2021-04-30 18:35:01+03:00,I'll Wait,Kygo,I'll Wait
+2021-04-30 18:06:34+03:00,Well Thought Out Twinkles,Silversun Pickups,Carnavas
+2021-04-30 18:00:27+03:00,Scatterbrain,Jeff Beck,Blow by Blow
+2021-04-30 17:46:12+03:00,Time Machine,Royal Thunder,Crooked Doors (Deluxe Version)
+2021-04-30 17:41:20+03:00,My Shadow,Jay Reatard,Blood Visions
+2021-04-30 17:37:43+03:00,Lazerray,TV on the Radio,Seeds
+2021-04-30 17:36:15+03:00,In My Eyes,Minor Threat,First Two Seven Inches
+2021-04-30 17:32:54+03:00,A Cry For Help In A World Gone Mad,Agent Orange,Living In Darkness (30th Anniversary Edition)
+2021-04-30 17:28:31+03:00,Then Comes Dudley,The Jesus Lizard,Goat (Remaster / Reissue)
+2021-04-30 17:21:49+03:00,CAFO,Animals as Leaders,Animals as Leaders
+2021-04-30 17:13:24+03:00,Stargazer,Rainbow,Rising
+2021-04-30 17:10:05+03:00,Nakedness of Need,Pharmakon,Contact
+2021-04-29 12:21:11+03:00,Lake Of Fire,Nirvana,MTV Unplugged in New York
+2021-04-29 12:17:45+03:00,Oh Me,Nirvana,MTV Unplugged in New York
+2021-04-29 12:14:06+03:00,Plateau,Nirvana,MTV Unplugged in New York
+2021-04-29 12:10:05+03:00,Something in the Way,Nirvana,MTV Unplugged in New York
+2021-04-29 12:06:20+03:00,On a Plain,Nirvana,MTV Unplugged in New York
+2021-04-29 12:03:04+03:00,Polly,Nirvana,MTV Unplugged in New York
+2021-04-29 12:00:11+03:00,Dumb,Nirvana,MTV Unplugged in New York
+2021-04-29 11:56:30+03:00,Pennyroyal Tea,Nirvana,MTV Unplugged in New York
+2021-04-29 11:52:09+03:00,The Man Who Sold the World,Nirvana,MTV Unplugged in New York
+2021-04-29 11:47:32+03:00,Jesus Doesn't Want Me For A Sunbeam,Nirvana,MTV Unplugged in New York
+2021-04-29 11:43:18+03:00,Come as You Are,Nirvana,MTV Unplugged in New York
+2021-04-29 11:39:42+03:00,About a Girl,Nirvana,MTV Unplugged in New York
+2021-04-29 11:33:31+03:00,If This is What Passes for Living,Street Sects,End Position
+2021-04-29 11:30:58+03:00,"Collared, Kept",Street Sects,End Position
+2021-04-29 11:27:41+03:00,Feigning Familiarity,Street Sects,End Position
+2021-04-29 11:16:01+03:00,Black Din,Street Sects,End Position
+2021-04-29 11:13:38+03:00,Victims of Nostalgia,Street Sects,End Position
+2021-04-29 11:08:58+03:00,Our Lesions,Street Sects,End Position
+2021-04-29 11:06:18+03:00,Featherweight Hate,Street Sects,End Position
+2021-04-29 11:02:27+03:00,In Defense of Resentment,Street Sects,End Position
+2021-04-29 11:00:32+03:00,Copper in the Slots,Street Sects,End Position
+2021-04-29 10:57:20+03:00,And I Grew into Ribbons,Street Sects,End Position
+2021-04-29 10:50:07+03:00,Blacken The Other Eye,Street Sects,Blacken the Other Eye
+2021-04-29 10:43:03+03:00,"In Prison, At Least I Had You",Street Sects,Rat Jacket
+2021-04-29 10:37:54+03:00,Early Release,Street Sects,Rat Jacket
+2021-04-28 23:26:15+03:00,Total Immunity,Street Sects,Rat Jacket
+2021-04-28 23:22:33+03:00,Blacken The Other Eye,Street Sects,Rat Jacket
+2021-04-28 23:17:17+03:00,Try Honesty,Billy Talent,Billy Talent
+2021-04-28 23:13:03+03:00,Rusted From the Rain,Billy Talent,Billy Talent III
+2021-04-28 23:09:43+03:00,Fallen Leaves,Billy Talent,Billy Talent II
+2021-04-28 23:06:26+03:00,Red Flag,Billy Talent,Billy Talent II
+2021-04-28 21:45:11+03:00,365,Black Milk,Album of the Year
+2021-04-28 21:41:29+03:00,Black and Brown,Black Milk,Black and brown
+2021-04-28 21:40:16+03:00,Dark Sunshine,Black Milk,Black and brown
+2021-04-28 21:37:15+03:00,LOL,Black Milk,Black and brown
+2021-04-28 21:36:03+03:00,WTF,Black Milk,Black and brown
+2021-04-28 21:34:00+03:00,Dada,Black Milk,Black and brown
+2021-04-28 21:32:28+03:00,Jordan VIII,Black Milk,Black and brown
+2021-04-28 21:28:58+03:00,Zap,Black Milk,Black and brown
+2021-04-28 21:26:05+03:00,Loosie,Black Milk,Black and brown
+2021-04-28 21:23:37+03:00,Wake up,Black Milk,Black and brown
+2021-04-28 21:22:31+03:00,Sound Check,Black Milk,Black and brown
+2021-04-28 21:18:54+03:00,In My Eyes,Minor Threat,First Two Seven Inches
+2021-04-28 21:17:24+03:00,Minor Threat,Minor Threat,First Two Seven Inches
+2021-04-28 21:07:29+03:00,Space Truckin' - Remastered 2012,Deep Purple,Machine Head (remastered)
+2021-04-28 21:05:19+03:00,A Cry For Help In A World Gone Mad,Agent Orange,Living In Darkness (30th Anniversary Edition)
+2021-04-28 21:00:55+03:00,Then Comes Dudley,The Jesus Lizard,Goat (Remaster / Reissue)
+2021-04-28 20:54:13+03:00,CAFO,Animals as Leaders,Animals as Leaders
+2021-04-28 20:45:47+03:00,Stargazer,Rainbow,Rising
+2021-04-28 20:42:10+03:00,My Guitar Wants To Kill Your Mama,The Mothers of Invention,Weasels Ripped My Flesh
+2021-04-28 20:37:46+03:00,Love Like Anthrax,Gang of Four,Entertainment!
+2021-04-28 20:34:01+03:00,5.45,Gang of Four,Entertainment!
+2021-04-28 20:30:30+03:00,At Home He's a Tourist,Gang of Four,Entertainment!
+2021-04-28 20:27:50+03:00,Contract,Gang of Four,Entertainment!
+2021-04-28 20:25:22+03:00,Glass,Gang of Four,Entertainment!
+2021-04-28 20:22:08+03:00,I Found That Essence Rare,Gang of Four,Entertainment!
+2021-04-28 20:18:21+03:00,Guns Before Butter,Gang of Four,Entertainment!
+2021-04-28 20:15:16+03:00,Return the Gift,Gang of Four,Entertainment!
+2021-04-28 20:11:48+03:00,Damaged Goods,Gang of Four,Entertainment!
+2021-04-28 20:08:43+03:00,Not Great Men,Gang of Four,Entertainment!
+2021-04-28 20:05:36+03:00,Natural's Not In It,Gang of Four,Entertainment!
+2021-04-28 20:01:45+03:00,Ether,Gang of Four,Entertainment!
+2021-04-28 19:58:17+03:00,Damaged Goods,Gang of Four,Entertainment!
+2021-04-28 19:25:09+03:00,Torn Curtain,Television,Marquee Moon
+2021-04-28 19:20:09+03:00,Prove It,Television,Marquee Moon
+2021-04-28 19:14:36+03:00,Guiding Light,Television,Marquee Moon
+2021-04-28 19:09:31+03:00,Elevation,Television,Marquee Moon
+2021-04-28 18:58:51+03:00,Marquee Moon,Television,Marquee Moon
+2021-04-28 18:54:08+03:00,Friction,Television,Marquee Moon
+2021-04-28 18:50:19+03:00,Venus,Television,Marquee Moon
+2021-04-28 18:39:19+03:00,See No Evil,Television,Marquee Moon
+2021-04-28 18:37:18+03:00,Hope,Descendents,Milo Goes to College
+2021-04-28 18:35:37+03:00,Suburban Home,Descendents,Milo Goes to College
+2021-04-28 18:33:52+03:00,Lexicon Devil,The Germs,GI
+2021-04-28 18:31:59+03:00,Bloodstains - Original version,Agent Orange,Living In Darkness (30th Anniversary Edition)
+2021-04-28 18:29:17+03:00,My Girlfriend's Dead,The Vandals,"Hitler Bad, Vandals Good"
+2021-04-28 18:26:43+03:00,Don't Call Me White,NOFX,Punk in Drublic
+2021-04-28 18:24:33+03:00,Linoleum,NOFX,Punk in Drublic
+2021-04-28 18:21:16+03:00,Fuck Authority,Pennywise,Land of the Free?
+2021-04-28 18:17:08+03:00,Infected,Bad Religion,Stranger Than Fiction
+2021-04-28 18:12:15+03:00,Demon Cleaner,Kyuss,Welcome to Sky Valley
+2021-04-28 00:15:30+03:00,Flamingo,Kero Kero Bonito,Flamingo
+2021-04-27 23:23:05+03:00,Storm,Godspeed You! Black Emperor,Lift Your Skinny Fists Like Antennas to Heaven
+2021-04-26 12:44:09+03:00,Like Antennas To Heaven…,Godspeed You! Black Emperor,Lift Your Skinny Fists Like Antennas to Heaven
+2021-04-26 12:20:51+03:00,Sleep,Godspeed You! Black Emperor,Lift Your Skinny Fists Like Antennas to Heaven
+2021-04-26 11:58:15+03:00,Static,Godspeed You! Black Emperor,Lift Your Skinny Fists Like Antennas to Heaven
+2021-04-26 11:35:42+03:00,Storm,Godspeed You! Black Emperor,Lift Your Skinny Fists Like Antennas to Heaven
+2021-04-26 11:24:30+03:00,OUR SIDE HAS TO WIN (for D.H.),Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-26 11:16:18+03:00,Cliffs Gaze / cliffs’ gaze at empty waters’ rise / ASHES TO SEA or NEARER TO THEE,Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-26 11:04:42+03:00,“GOVERNMENT CAME” (9980.0kHz 3617.1kHz 4521.0 kHz),Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-26 10:58:44+03:00,Fire at Static Valley,Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-26 10:57:00+03:00,where we break how we shine (ROCKETS FOR MARY),Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-26 10:51:00+03:00,First of the Last Glaciers,Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-26 10:42:57+03:00,Job's Lament,Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-26 10:38:21+03:00,Military Alphabet (five eyes all blind) [4521.0kHz 6730.0kHz 4109.09kHz],Godspeed You! Black Emperor,G_d's Pee AT STATE'S END!
+2021-04-23 15:40:45+03:00,Canal St. (feat. Bones),A$AP Rocky,AT.LONG.LAST.A$AP
+2021-04-23 11:22:34+03:00,Holy Ghost (feat. Joe Fox),A$AP Rocky,AT.LONG.LAST.A$AP
+2021-04-23 11:14:07+03:00,Mortal Man,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 11:09:21+03:00,i,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 11:05:19+03:00,You Ain't Gotta Lie (Momma Said),Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 10:59:50+03:00,The Blacker the Berry,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 10:55:27+03:00,Complexion (A Zulu Love),Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 10:51:06+03:00,How Much a Dollar Cost,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:47:00+03:00,Hood Politics,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:42:17+03:00,Momma,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:37:26+03:00,For Sale? - Interlude,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:33:46+03:00,Alright,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:29:18+03:00,u,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:24:17+03:00,These Walls,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:19:45+03:00,Institutionalized,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:15:50+03:00,King Kunta,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:13:39+03:00,For Free? - Interlude,Kendrick Lamar,To Pimp a Butterfly
+2021-04-23 09:08:52+03:00,Wesley's Theory,Kendrick Lamar,To Pimp a Butterfly
+2021-04-19 14:06:58+03:00,Real,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 13:11:56+03:00,"Sing About Me, I'm Dying of Thirst",Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 13:06:42+03:00,Swimming Pools (Drank) (extended version),Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 13:00:52+03:00,m.A.A.d city,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 12:57:18+03:00,good kid,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 12:52:18+03:00,Poetic Justice,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 12:45:51+03:00,Money Trees,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 12:40:27+03:00,The Art of Peer Pressure,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 12:36:54+03:00,Backseat Freestyle,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 12:31:43+03:00,"Bitch, Don’t Kill My Vibe",Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-19 12:27:11+03:00,Sherane a.k.a Master Splinter’s Daughter,Kendrick Lamar,"good kid, m.A.A.d city"
+2021-04-14 21:55:14+03:00,About A Girl - Live Version,Nirvana,MTV Unplugged In New York (25th Anniversary)
+2021-04-14 21:42:09+03:00,Wonderwall - Remastered,Oasis,(What's The Story) Morning Glory? (Deluxe Remastered Edition)
+2021-04-14 21:01:12+03:00,Don't Speak,No Doubt,Tragic Kingdom
+2021-04-14 20:55:59+03:00,Wind of Change,Scorpions,Crazy World
+2021-04-14 20:52:14+03:00,Weather With You,Crowded House,Woodface
+2021-04-14 20:48:53+03:00,3's & 7's,Queens of the Stone Age,Era Vulgaris
+2021-04-14 20:43:12+03:00,Alive,Pearl Jam,Ten
+2021-04-14 20:37:02+03:00,Wish You Were Here - 2011 Remastered Version,Pink Floyd,Wish You Were Here [Remastered] (Remastered Version)
+2021-04-14 18:54:28+03:00,The Rolling People,The Verve,Urban Hymns (Remastered 2016)
+2021-04-14 18:50:07+03:00,Sonnet,The Verve,Urban Hymns (Remastered 2016)
+2021-04-14 18:44:06+03:00,Bitter Sweet Symphony,The Verve,Urban Hymns (Remastered 2016)
+2021-04-14 18:18:45+03:00,Between Hello and Goodbye,The Field Mice,Coastal
+2021-04-14 18:12:44+03:00,It Isn't Forever,The Field Mice,Coastal
+2021-04-14 18:07:27+03:00,When Morning Comes To Town,The Field Mice,Coastal
+2021-04-14 18:02:25+03:00,Quicksilver,The Field Mice,Coastal
+2021-04-14 17:56:50+03:00,Below the Stars,The Field Mice,Coastal
+2021-04-14 17:50:39+03:00,Let's Kiss and Make Up,The Field Mice,Coastal
+2021-04-14 17:46:52+03:00,Couldn't Feel Safer,The Field Mice,Coastal
+2021-04-14 17:42:40+03:00,Anyone Else Isn't You,The Field Mice,Coastal
+2021-04-14 17:38:56+03:00,If You Need Someone,The Field Mice,Coastal
+2021-04-14 17:35:34+03:00,This Love Is Not Wrong,The Field Mice,Coastal
+2021-04-14 17:30:29+03:00,Sensitive,The Field Mice,Coastal
+2021-04-14 17:27:44+03:00,The Last Letter,The Field Mice,Coastal
+2021-04-14 17:22:38+03:00,So Said Kay,The Field Mice,Coastal
+2021-04-14 17:18:24+03:00,September's Not So Far Away,The Field Mice,Coastal
+2021-04-14 16:30:56+03:00,Incident,Modern English,Mesh & Lace
+2021-04-14 16:26:21+03:00,Swans on Glass,Modern English,Mesh & Lace
+2021-04-14 16:22:30+03:00,Home,Modern English,Mesh & Lace
+2021-04-14 16:15:28+03:00,Tranquility,Modern English,Mesh & Lace
+2021-04-14 16:11:09+03:00,Mesh and Lace,Modern English,Mesh & Lace
+2021-04-14 16:07:56+03:00,Smiles and Laughter,Modern English,Mesh & Lace
+2021-04-14 16:02:05+03:00,Dance of Devotion (A Love Song),Modern English,Mesh & Lace
+2021-04-14 15:56:20+03:00,Black Houses,Modern English,Mesh & Lace
+2021-04-14 15:51:56+03:00,A Viable Commercial,Modern English,Mesh & Lace
+2021-04-14 15:45:23+03:00,The Token Man,Modern English,Mesh & Lace
+2021-04-14 15:38:55+03:00,Grief,Modern English,Mesh & Lace
+2021-04-14 15:34:10+03:00,Move in Light,Modern English,Mesh & Lace
+2021-04-14 15:30:02+03:00,Just a Thought,Modern English,Mesh & Lace
+2021-04-14 15:25:28+03:00,16 Days,Modern English,Mesh & Lace
+2021-04-14 15:21:07+03:00,Gathering Dust,Modern English,Mesh & Lace
+2021-04-14 15:13:16+03:00,Wind-Up,Jethro Tull,Aqualung (Special Edition)
+2021-04-14 15:10:29+03:00,Lick Your Fingers Clean,Jethro Tull,Aqualung (Special Edition)
+2021-04-14 15:04:28+03:00,Wind-Up,Jethro Tull,Aqualung (Special Edition)
+2021-04-14 15:00:02+03:00,Locomotive Breath,Jethro Tull,Aqualung (Special Edition)
+2021-04-14 14:58:51+03:00,Slipstream,Jethro Tull,Aqualung
+2021-04-14 14:55:34+03:00,Hymn 43,Jethro Tull,Aqualung
+2021-04-14 14:48:23+03:00,My God,Jethro Tull,Aqualung
+2021-04-14 14:45:09+03:00,Up to Me,Jethro Tull,Aqualung
+2021-04-14 14:43:16+03:00,Wond'ring Aloud,Jethro Tull,Aqualung
+2021-04-14 14:39:23+03:00,Mother Goose,Jethro Tull,Aqualung
+2021-04-14 14:38:02+03:00,Cheap Day Return,Jethro Tull,Aqualung
+2021-04-14 14:33:52+03:00,Cross-Eyed Mary,Jethro Tull,Aqualung
+2021-04-14 14:27:16+03:00,Aqualung,Jethro Tull,Aqualung
+2021-04-14 14:13:39+03:00,Shine On You Crazy Diamond (Parts VI-IX),Pink Floyd,Wish You Were Here
+2021-04-14 14:08:04+03:00,Wish You Were Here,Pink Floyd,Wish You Were Here
+2021-04-14 14:02:57+03:00,Have a Cigar,Pink Floyd,Wish You Were Here
+2021-04-14 13:55:25+03:00,Welcome to the Machine,Pink Floyd,Wish You Were Here
+2021-04-14 13:41:51+03:00,Shine On You Crazy Diamond (Parts I-V),Pink Floyd,Wish You Were Here
+2021-04-09 10:34:53+03:00,Still Can't...,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:32:45+03:00,Wanted,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:28:10+03:00,Linger,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:23:50+03:00,Not Sorry,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:20:12+03:00,Waltzing Back,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:17:56+03:00,Pretty,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:14:25+03:00,Sunday,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:09:53+03:00,Dreams,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-09 10:06:33+03:00,I Still Do,The Cranberries,"Everybody Else Is Doing It, So Why Can't We?"
+2021-04-08 20:00:21+03:00,Die Young Stay Pretty,Blondie,Eat to the Beat
+2021-04-08 19:56:06+03:00,Accidents Never Happen,Blondie,Eat to the Beat
+2021-04-08 19:53:26+03:00,Eat to the Beat,Blondie,Eat to the Beat
+2021-04-08 19:49:27+03:00,Shayla,Blondie,Eat to the Beat
+2021-04-08 19:46:05+03:00,Union City Blue,Blondie,Eat to the Beat
+2021-04-08 19:42:23+03:00,The Hardest Part,Blondie,Eat to the Beat
+2021-04-08 19:39:11+03:00,Dreaming,Blondie,Eat to the Beat
+2021-04-08 17:33:18+03:00,The Soft Parade,The Doors,The Soft Parade
+2021-04-08 17:30:22+03:00,Wishful Sinful,The Doors,The Soft Parade
+2021-04-08 15:53:02+03:00,Hold Your Hand,Dum Dum Girls,Only in Dreams
+2021-04-08 15:50:13+03:00,Teardrops on My Pillow,Dum Dum Girls,Only in Dreams
+2021-04-08 15:46:34+03:00,Wasted Away,Dum Dum Girls,Only in Dreams
+2021-04-08 15:20:20+03:00,Coming Down,Dum Dum Girls,Only in Dreams
+2021-04-08 15:16:36+03:00,Caught In One,Dum Dum Girls,Only in Dreams
+2021-04-08 15:13:45+03:00,Heartbeat (Take It Away),Dum Dum Girls,Only in Dreams
+2021-04-08 15:09:57+03:00,In My Head,Dum Dum Girls,Only in Dreams
+2021-04-08 15:07:00+03:00,Just A Creep,Dum Dum Girls,Only in Dreams
+2021-04-08 15:03:06+03:00,Bedroom Eyes,Dum Dum Girls,Only in Dreams
+2021-04-08 15:00:47+03:00,Always Looking,Dum Dum Girls,Only in Dreams
+2021-04-08 14:56:20+03:00,Twilight at Carbon Lake,Deerhunter,Microcastle
+2021-04-08 14:50:55+03:00,"Neither of Us, Uncertainly",Deerhunter,Microcastle
+2021-04-08 14:47:05+03:00,Saved by Old Times,Deerhunter,Microcastle
+2021-04-08 14:41:14+03:00,Nothing Ever Happened,Deerhunter,Microcastle
+2021-04-08 14:39:25+03:00,Activa,Deerhunter,Microcastle
+2021-04-08 14:37:16+03:00,Green Jacket,Deerhunter,Microcastle
+2021-04-08 14:35:39+03:00,Calvary Scars,Deerhunter,Microcastle
+2021-04-08 14:31:58+03:00,Microcastle,Deerhunter,Microcastle
+2021-04-08 14:27:36+03:00,Little Kids,Deerhunter,Microcastle
+2021-04-08 14:24:33+03:00,Never Stops,Deerhunter,Microcastle
+2021-04-08 14:21:09+03:00,Agoraphobia,Deerhunter,Microcastle
+2021-04-08 14:19:46+03:00,Cover Me (Slowly),Deerhunter,Microcastle
+2021-04-08 14:07:07+03:00,"And, Goodnight",Ty Segall,Freedom's Goblin
+2021-04-08 14:02:34+03:00,5 Ft. Tall,Ty Segall,Freedom's Goblin
+2021-04-08 13:59:51+03:00,I'm Free,Ty Segall,Freedom's Goblin
+2021-04-08 13:56:51+03:00,The Main Pretender,Ty Segall,Freedom's Goblin
+2021-04-08 13:38:11+03:00,Talkin 3,Ty Segall,Freedom's Goblin
+2021-04-08 13:37:05+03:00,Prison,Ty Segall,Freedom's Goblin
+2021-04-08 13:30:42+03:00,She,Ty Segall,Freedom's Goblin
+2021-04-08 13:28:18+03:00,The Last Waltz,Ty Segall,Freedom's Goblin
+2021-04-08 13:23:55+03:00,You Say All The Nice Things,Ty Segall,Freedom's Goblin
+2021-04-08 13:20:35+03:00,Shoot You Up,Ty Segall,Freedom's Goblin
+2021-04-08 13:17:23+03:00,Cry Cry Cry,Ty Segall,Freedom's Goblin
+2021-04-08 13:14:16+03:00,Meaning,Ty Segall,Freedom's Goblin
+2021-04-08 13:10:09+03:00,Alta,Ty Segall,Freedom's Goblin
+2021-04-08 13:06:16+03:00,My Lady's On Fire,Ty Segall,Freedom's Goblin
+2021-04-08 13:03:29+03:00,When Mommy Kills You,Ty Segall,Freedom's Goblin
+2021-04-08 12:59:37+03:00,Despoiler of Cadaver,Ty Segall,Freedom's Goblin
+2021-04-08 12:55:18+03:00,Every 1's a Winner,Ty Segall,Freedom's Goblin
+2021-04-08 12:51:13+03:00,Rain,Ty Segall,Freedom's Goblin
+2021-04-08 12:47:33+03:00,Fanny Dog,Ty Segall,Freedom's Goblin
+2021-04-08 12:45:31+03:00,Nearer to Thee,Weyes Blood,Titanic Rising
+2021-04-08 12:41:49+03:00,Picture Me Better,Weyes Blood,Titanic Rising
+2021-04-08 12:35:40+03:00,Wild Time,Weyes Blood,Titanic Rising
+2021-04-08 12:30:34+03:00,Mirror Forever,Weyes Blood,Titanic Rising
+2021-04-08 12:24:40+03:00,Movies,Weyes Blood,Titanic Rising
+2021-04-08 12:23:04+03:00,Titanic Rising,Weyes Blood,Titanic Rising
+2021-04-08 12:18:19+03:00,Something to Believe,Weyes Blood,Titanic Rising
+2021-04-08 12:13:12+03:00,Everyday,Weyes Blood,Titanic Rising
+2021-04-08 12:08:31+03:00,Andromeda,Weyes Blood,Titanic Rising
+2021-04-08 12:04:09+03:00,Let The Bad Times Roll,The Offspring,Let The Bad Times Roll
+2021-04-08 12:04:07+03:00,A Lot's Gonna Change,Weyes Blood,Titanic Rising
+2021-04-07 15:41:00+03:00,Why Don't You Get a Job,The Offspring,Americana
+2021-04-07 15:37:51+03:00,Pretty Fly (For a White Guy),The Offspring,Americana
+2021-04-07 15:33:34+03:00,Self Esteem,The Offspring,Greatest Hits
+2021-04-07 15:30:34+03:00,The Kids Aren't Alright,The Offspring,Americana
+2021-04-07 15:27:35+03:00,"You're Gonna Go Far, Kid",The Offspring,"Rise and Fall, Rage and Grace"
+2021-04-07 15:27:25+03:00,"Touch, Peel And Stand",Days of the New,Days Of The New
+2021-04-07 15:22:49+03:00,Shimmer,Fuel,Sunburn
+2021-04-07 15:16:12+03:00,23,Blonde Redhead,23
+2021-04-07 15:10:06+03:00,In Particular,Blonde Redhead,Melody of Certain Damaged Lemons
+2021-04-07 15:07:04+03:00,For the Damaged,Blonde Redhead,Melody of Certain Damaged Lemons
+2021-04-07 15:04:26+03:00,For the Damaged Coda,Blonde Redhead,Melody of Certain Damaged Lemons
+2021-04-07 14:58:13+03:00,Viginti Tres,Tool,"10,000 Days"
+2021-04-07 14:49:17+03:00,Right in Two,Tool,"10,000 Days"
+2021-04-07 14:41:56+03:00,Intension,Tool,"10,000 Days"
+2021-04-07 14:30:44+03:00,Rosetta Stoned,Tool,"10,000 Days"
+2021-04-07 14:26:58+03:00,Lost Keys (Blame Hofman),Tool,"10,000 Days"
+2021-04-07 14:25:47+03:00,Lipan Conjuring,Tool,"10,000 Days"
+2021-04-07 14:19:25+03:00,The Pot,Tool,"10,000 Days"
+2021-04-07 14:08:11+03:00,"10,000 Days (Wings Pt 2)",Tool,"10,000 Days"
+2021-04-07 14:02:00+03:00,Wings for Marie (Pt 1),Tool,"10,000 Days"
+2021-04-07 13:54:31+03:00,Jambi,Tool,"10,000 Days"
+2021-04-07 13:46:27+03:00,Vicarious,Tool,"10,000 Days"
+2021-04-07 13:34:24+03:00,Disgustipated,Tool,Undertow
+2021-04-07 13:26:35+03:00,Flood,Tool,Undertow
+2021-04-07 12:49:06+03:00,4°,Tool,Undertow
+2021-04-07 12:43:44+03:00,Undertow,Tool,Undertow
+2021-04-07 12:38:12+03:00,Swamp Song,Tool,Undertow
+2021-04-07 12:32:41+03:00,Crawl Away,Tool,Undertow
+2021-04-07 12:25:28+03:00,Bottom,Tool,Undertow
+2021-04-07 12:20:21+03:00,Sober,Tool,Undertow
+2021-04-07 12:15:54+03:00,Prison Sex,Tool,Undertow
+2021-04-07 12:11:19+03:00,Intolerance,Tool,Undertow
+2021-04-04 14:37:58+03:00,Freebird II,Parquet Courts,Wide Awake!
+2021-04-04 14:34:43+03:00,Almost Had To Start A Fight/In And Out of Patience,Parquet Courts,Wide Awake!
+2021-04-04 14:32:00+03:00,Mardi Gras Beads,Parquet Courts,Wide Awake!
+2021-04-04 14:27:55+03:00,Before the Water Gets Too High,Parquet Courts,Wide Awake!
+2021-04-04 14:23:49+03:00,Violence,Parquet Courts,Wide Awake!
+2021-04-04 14:19:48+03:00,Total Football,Parquet Courts,Wide Awake!
+2021-04-04 14:13:50+03:00,Foz,The Stone Roses,Second Coming
+2021-04-04 14:08:03+03:00,Love Spreads,The Stone Roses,Second Coming
+2021-04-04 14:03:04+03:00,How Do You Sleep,The Stone Roses,Second Coming
+2021-04-04 13:56:13+03:00,Tears,The Stone Roses,Second Coming
+2021-04-04 13:50:33+03:00,Good Times,The Stone Roses,Second Coming
+2021-04-04 13:46:09+03:00,Tightrope,The Stone Roses,Second Coming
+2021-04-04 13:41:15+03:00,Begging You,The Stone Roses,Second Coming
+2021-04-04 13:38:02+03:00,Straight to the Man,The Stone Roses,Second Coming
+2021-04-04 13:35:06+03:00,Your Star Will Shine,The Stone Roses,Second Coming
+2021-04-04 13:28:32+03:00,Daybreak,The Stone Roses,Second Coming
+2021-04-04 13:24:02+03:00,Ten Storey Love Song,The Stone Roses,Second Coming
+2021-04-04 13:18:53+03:00,Driving South,The Stone Roses,Second Coming
+2021-04-04 13:07:32+03:00,Breaking Into Heaven,The Stone Roses,Second Coming
+2021-04-04 13:02:35+03:00,A Familiar Face,The Ocean Blue,The Ocean Blue
+2021-04-04 12:59:06+03:00,Myron,The Ocean Blue,The Ocean Blue
+2021-04-04 12:55:20+03:00,The Office of a Busy Man,The Ocean Blue,The Ocean Blue
+2021-04-04 12:51:09+03:00,Awaking to a Dream,The Ocean Blue,The Ocean Blue
+2021-04-04 12:47:57+03:00,Ask Me Jon,The Ocean Blue,The Ocean Blue
+2021-04-04 12:44:35+03:00,Love Song,The Ocean Blue,The Ocean Blue
+2021-04-04 12:41:06+03:00,Just Let Me Know,The Ocean Blue,The Ocean Blue
+2021-04-04 12:37:45+03:00,Frigid Winter Days,The Ocean Blue,The Ocean Blue
+2021-04-04 12:33:48+03:00,The Circus Animals,The Ocean Blue,The Ocean Blue
+2021-04-04 12:29:54+03:00,"Drifting, Falling",The Ocean Blue,The Ocean Blue
+2021-04-04 12:25:16+03:00,Vanity Fair,The Ocean Blue,The Ocean Blue
+2021-04-04 12:21:14+03:00,Between Something and Nothing,The Ocean Blue,The Ocean Blue
+2021-04-04 12:10:08+03:00,Grasshopper,Ride,Going Blank Again
+2021-04-04 12:05:53+03:00,Stampede,Ride,Going Blank Again
+2021-04-04 12:01:50+03:00,Howard Hughes,Ride,Going Blank Again
+2021-04-04 11:58:29+03:00,Going Blank Again,Ride,Going Blank Again
+2021-04-04 11:51:26+03:00,OX4,Ride,Going Blank Again
+2021-04-04 11:45:32+03:00,Time Machine,Ride,Going Blank Again
+2021-04-04 11:42:53+03:00,Making Judy Smile,Ride,Going Blank Again
+2021-04-04 11:36:52+03:00,Cool Your Boots,Ride,Going Blank Again
+2021-04-04 11:33:36+03:00,Time of Her Time,Ride,Going Blank Again
+2021-04-04 11:28:22+03:00,Mouse Trap,Ride,Going Blank Again
+2021-04-04 11:24:29+03:00,Chrome Waves,Ride,Going Blank Again
+2021-04-04 11:20:05+03:00,Not Fazed,Ride,Going Blank Again
+2021-04-04 11:16:23+03:00,Twisterella,Ride,Going Blank Again
+2021-04-04 11:08:04+03:00,Leave Them All Behind,Ride,Going Blank Again
+2021-04-04 10:44:53+03:00,Forget About Life,Alvvays,Antisocialites
+2021-04-04 10:41:54+03:00,Saved By A Waif,Alvvays,Antisocialites
+2021-04-04 10:38:50+03:00,Already Gone,Alvvays,Antisocialites
+2021-04-04 10:35:32+03:00,Lollipop (Ode To Jim),Alvvays,Antisocialites
+2021-04-04 10:32:44+03:00,Hey,Alvvays,Antisocialites
+2021-04-04 10:28:27+03:00,Not My Baby,Alvvays,Antisocialites
+2021-04-04 10:26:24+03:00,Your Type,Alvvays,Antisocialites
+2021-04-04 10:21:34+03:00,Plimsoll Punks,Alvvays,Antisocialites
+2021-04-04 10:18:18+03:00,Dreams Tonite,Alvvays,Antisocialites
+2021-04-04 10:15:00+03:00,In Undertow,Alvvays,Antisocialites
+2021-04-04 10:10:43+03:00,Red Planet,Alvvays,Alvvays
+2021-04-04 10:07:23+03:00,Atop a Cake,Alvvays,Alvvays
+2021-04-04 10:04:27+03:00,Dives,Alvvays,Alvvays
+2021-04-04 09:59:55+03:00,The Agency Group,Alvvays,Alvvays
+2021-04-04 09:56:08+03:00,Party Police,Alvvays,Alvvays
+2021-04-04 09:52:19+03:00,Next of Kin,Alvvays,Alvvays
+2021-04-04 09:48:32+03:00,Ones Who Love You,Alvvays,Alvvays
+2021-04-04 09:45:15+03:00,"Archie, Marry Me",Alvvays,Alvvays
+2021-04-04 09:41:48+03:00,Hell of a Season,The Black Keys,El Camino
+2021-04-04 09:41:45+03:00,Adult Diversion,Alvvays,Alvvays
+2021-04-03 20:21:53+03:00,Sister,The Black Keys,El Camino
+2021-04-03 20:18:36+03:00,Run Right Back,The Black Keys,El Camino
+2021-04-03 20:15:38+03:00,Money Maker,The Black Keys,El Camino
+2021-04-03 20:11:27+03:00,Little Black Submarines,The Black Keys,El Camino
+2021-04-03 20:07:43+03:00,Gold on the Ceiling,The Black Keys,El Camino
+2021-04-03 20:04:02+03:00,Dead and Gone,The Black Keys,El Camino
+2021-04-03 20:00:48+03:00,Lonely Boy,The Black Keys,El Camino
+2021-04-03 19:57:48+03:00,Gotta Get Away,The Black Keys,Turn Blue
+2021-04-03 19:53:10+03:00,In Our Prime,The Black Keys,Turn Blue
+2021-04-03 19:49:37+03:00,10 Lovers,The Black Keys,Turn Blue
+2021-04-03 19:45:59+03:00,Waiting on Words,The Black Keys,Turn Blue
+2021-04-03 19:42:49+03:00,It's Up to You Now,The Black Keys,Turn Blue
+2021-04-03 19:38:33+03:00,Bullet in the Brain,The Black Keys,Turn Blue
+2021-04-03 19:34:45+03:00,Year in Review,The Black Keys,Turn Blue
+2021-04-03 19:30:38+03:00,Fever,The Black Keys,Turn Blue
+2021-04-03 19:26:55+03:00,Turn Blue,The Black Keys,Turn Blue
+2021-04-03 19:22:27+03:00,In Time,The Black Keys,Turn Blue
+2021-04-03 19:15:37+03:00,Weight of Love,The Black Keys,Turn Blue
+2021-04-03 19:08:45+03:00,Happy Birthday,Stevie Wonder,Hotter Than July
+2021-04-03 19:04:39+03:00,Lately,Stevie Wonder,Hotter Than July
+2021-04-03 19:00:40+03:00,Cash In Your Face,Stevie Wonder,Hotter Than July
+2021-04-03 18:56:15+03:00,Do Like You,Stevie Wonder,Hotter Than July
+2021-04-03 18:51:07+03:00,Master Blaster (Jammin'),Stevie Wonder,Hotter Than July
+2021-04-03 18:47:28+03:00,As If You Read My Mind,Stevie Wonder,Hotter Than July
+2021-04-03 18:42:49+03:00,I Ain't Gonna Stand For It,Stevie Wonder,Hotter Than July
+2021-04-03 18:38:10+03:00,Rocket Love,Stevie Wonder,Hotter Than July
+2021-04-03 18:33:03+03:00,All I Do,Stevie Wonder,Hotter Than July
+2021-04-03 18:28:55+03:00,Did I Hear You Say You Love Me,Stevie Wonder,Hotter Than July
+2021-04-03 18:22:25+03:00,Cling,Days of the New,Days Of The New
+2021-04-03 18:16:51+03:00,How Do You Know You?,Days of the New,Days Of The New
+2021-04-03 18:11:12+03:00,Where I Stand,Days of the New,Days Of The New
+2021-04-03 18:05:10+03:00,Whimsical,Days of the New,Days Of The New
+2021-04-03 18:00:06+03:00,Now,Days of the New,Days Of The New
+2021-04-03 17:54:42+03:00,Freak,Days of the New,Days Of The New
+2021-04-03 17:49:16+03:00,What's Left For Me?,Days of the New,Days Of The New
+2021-04-03 17:45:00+03:00,The Down Town,Days of the New,Days Of The New
+2021-04-03 17:40:51+03:00,Solitude,Days of the New,Days Of The New
+2021-04-03 17:35:34+03:00,Face Of The Earth,Days of the New,Days Of The New
+2021-04-03 17:30:37+03:00,"Touch, Peel And Stand",Days of the New,Days Of The New
+2021-04-03 17:25:52+03:00,Shelf In The Room,Days of the New,Days Of The New
+2021-04-03 17:22:31+03:00,Mother's Lament,Cream,Disraeli Gears
+2021-04-03 17:19:25+03:00,Take It Back,Cream,Disraeli Gears
+2021-04-03 17:17:00+03:00,Outside Woman Blues,Cream,Disraeli Gears
+2021-04-03 17:13:33+03:00,We're Going Wrong,Cream,Disraeli Gears
+2021-04-03 17:11:02+03:00,SWLABR,Cream,Disraeli Gears
+2021-04-03 17:08:15+03:00,Tales of Brave Ulysses,Cream,Disraeli Gears
+2021-04-03 17:04:46+03:00,Blue Condition,Cream,Disraeli Gears
+2021-04-03 17:01:11+03:00,Dance the Night Away,Cream,Disraeli Gears
+2021-04-03 16:58:09+03:00,World of Pain,Cream,Disraeli Gears
+2021-04-03 16:53:59+03:00,Sunshine of Your Love,Cream,Disraeli Gears
+2021-04-03 16:51:12+03:00,Strange Brew,Cream,Disraeli Gears
+2021-04-03 16:29:11+03:00,The Struggle Within,Metallica,Metallica
+2021-04-03 16:22:23+03:00,My Friend of Misery,Metallica,Metallica
+2021-04-03 16:17:15+03:00,The God That Failed,Metallica,Metallica
+2021-04-03 16:12:58+03:00,Of Wolf and Man,Metallica,Metallica
+2021-04-03 16:06:30+03:00,Nothing Else Matters,Metallica,Metallica
+2021-04-03 16:02:27+03:00,Through the Never,Metallica,Metallica
+2021-04-03 15:58:27+03:00,Don't Tread on Me,Metallica,Metallica
+2021-04-03 15:51:43+03:00,Wherever I May Roam,Metallica,Metallica
+2021-04-03 15:45:16+03:00,The Unforgiven,Metallica,Metallica
+2021-04-03 15:41:29+03:00,Holier Than Thou,Metallica,Metallica
+2021-04-03 15:36:05+03:00,Sad but True,Metallica,Metallica
+2021-04-03 15:30:33+03:00,Enter Sandman,Metallica,Metallica
+2021-04-03 13:51:14+03:00,The Stagnant Pool,Felt,The Splendour Of Fear
+2021-04-03 13:45:19+03:00,Under the Sun,SPELLLING,Mazy Fly
+2021-04-03 13:42:48+03:00,SWLABR,Cream,Disraeli Gears
+2021-04-03 13:37:21+03:00,Woodstock,Joni Mitchell,Ladies of the Canyon
+2021-04-03 13:33:26+03:00,Corporeal,Broadcast,Tender Buttons
+2021-04-03 13:29:05+03:00,"Denise, Don't Wait",U.S. Girls,Heavy Light
+2021-04-03 13:20:13+03:00,Under the Pressure,The War on Drugs,Lost in the Dream
+2021-04-03 13:17:01+03:00,Intermezzo: My Mental Motorcycle,Molly Nilsson,2020
+2021-04-03 13:14:15+03:00,Who Loves The Sun,The Velvet Underground,Loaded
+2021-04-03 13:10:18+03:00,Strawberries,Asobi Seksu,Citrus
+2021-04-03 13:05:38+03:00,Waltz #2 (XO),Elliott Smith,XO
+2021-04-03 13:02:21+03:00,"Archie, Marry Me",Alvvays,Alvvays
+2021-04-03 12:54:45+03:00,Woman,Angel Olsen,MY WOMAN
+2021-04-03 12:49:00+03:00,Shirim,Melody's Echo Chamber,Bon Voyage
+2021-04-03 12:43:59+03:00,"Visions of Someone Special, on a Wall of Reflections",Melody's Echo Chamber,Bon Voyage
+2021-04-03 12:36:52+03:00,Quand Les Larmes D'un Ange Font Danser La Neige,Melody's Echo Chamber,Bon Voyage
+2021-04-03 12:35:23+03:00,Var Har Du Vart,Melody's Echo Chamber,Bon Voyage
+2021-04-03 12:30:08+03:00,Desert Horse,Melody's Echo Chamber,Bon Voyage
+2021-04-03 12:27:17+03:00,"Breathe In, Breathe Out",Melody's Echo Chamber,Bon Voyage
+2021-04-03 12:20:22+03:00,Cross My Heart,Melody's Echo Chamber,Bon Voyage
+2021-04-03 12:14:47+03:00,Don't Ask Me Twice,Porridge Radio,Every Bad
+2021-04-03 12:11:03+03:00,Sweet,Porridge Radio,Every Bad
+2021-04-03 11:46:54+03:00,Echoes,Pink Floyd,Meddle
+2021-04-03 11:44:39+03:00,Seamus,Pink Floyd,Meddle
+2021-04-03 11:40:56+03:00,San Tropez,Pink Floyd,Meddle
+2021-04-03 11:34:48+03:00,Fearless,Pink Floyd,Meddle
+2021-04-03 11:29:35+03:00,A Pillow of Winds,Pink Floyd,Meddle
+2021-04-03 11:23:40+03:00,One of These Days,Pink Floyd,Meddle
+2021-04-03 11:09:56+03:00,Alan's Psychedelic Breakfast,Pink Floyd,Atom Heart Mother
+2021-04-03 11:04:32+03:00,Fat Old Sun,Pink Floyd,Atom Heart Mother
+2021-04-03 10:59:03+03:00,Summer '68,Pink Floyd,Atom Heart Mother
+2021-04-03 10:54:32+03:00,If,Pink Floyd,Atom Heart Mother
+2021-04-03 10:30:49+03:00,All The Time,The Strokes,Comedown Machine
+2021-04-03 10:30:47+03:00,Atom Heart Mother Suite,Pink Floyd,Atom Heart Mother
 2021-04-02 19:51:10+03:00,Tap Out,The Strokes,Comedown Machine
 2021-04-02 19:45:18+03:00,Ode to the Mets,The Strokes,The New Abnormal
 2021-04-02 19:39:41+03:00,Not the Same Anymore,The Strokes,The New Abnormal
@@ -10212,7 +10809,7 @@ ts,track,artist,album
 2020-05-07 11:39:00+03:00,Zero,The Smashing Pumpkins,Mellon Collie and the Infinite Sadness
 2020-05-07 11:34:39+03:00,The Man Who Sold the World,Nirvana,MTV Unplugged in New York
 2020-05-07 11:31:56+03:00,Celebrity Skin,Hole,Celebrity Skin
-2020-05-07 11:28:20+03:00,John The Fisherman,Primus,They Can't All Be Zingers
+2020-05-07 11:28:20+03:00,John the Fisherman,Primus,They Can't All Be Zingers
 2020-05-07 11:24:45+03:00,3's & 7's,Queens of the Stone Age,Era Vulgaris
 2020-05-07 11:21:04+03:00,Would?,Alice in Chains,Dirt
 2020-05-07 11:15:08+03:00,Song For The Dead,Queens of the Stone Age,Songs for the Deaf
@@ -10534,7 +11131,7 @@ ts,track,artist,album
 2020-04-09 20:24:38+03:00,3's & 7's,Queens of the Stone Age,Era Vulgaris
 2020-04-09 20:19:48+03:00,Long Gone Day,Mad Season,Above
 2020-04-09 20:15:14+03:00,The Way You Used to Do,Queens of the Stone Age,Villains
-2020-04-09 20:11:37+03:00,John The Fisherman,Primus,They Can't All Be Zingers
+2020-04-09 20:11:37+03:00,John the Fisherman,Primus,They Can't All Be Zingers
 2020-04-09 20:07:34+03:00,Cold Hard Bitch,Jet,Get Born
 2020-04-09 20:02:49+03:00,Man in the Box,Alice in Chains,Facelift
 2020-04-09 19:59:57+03:00,Lake Of Fire,Nirvana,MTV Unplugged in New York
@@ -11266,7 +11863,7 @@ ts,track,artist,album
 2020-03-09 12:51:21+02:00,I Saw the End,Pallbearer,Heartless
 2020-03-09 12:50:56+02:00,Dangerous,The xx,I See You
 2020-03-09 12:44:37+02:00,Love You to Death,Pallbearer,Fear & Fury EP
-2020-03-09 12:37:14+02:00,Camp Orchestra,Show Me the Body,Dog Whistle
+2020-03-09 12:37:14+02:00,Camp Orchestra,Show Me The Body,Dog Whistle
 2020-03-09 12:32:30+02:00,Metallic Taste,Show Me the Body,Body War
 2020-03-09 12:27:50+02:00,Thanks For Nothing,Bent Life,Never Asked for Heaven
 2020-03-09 12:20:41+02:00,Wandering Star,Portishead,Dummy
@@ -11722,7 +12319,7 @@ ts,track,artist,album
 2020-02-28 18:41:41+02:00,Cities In Dust (Single Version),Siouxsie and the Banshees,Twice Upon A Time / The Singles
 2020-02-28 18:38:49+02:00,Deus,The Sugarcubes,Life's Too Good
 2020-02-28 18:35:08+02:00,The Model,Kraftwerk,The Man Machine
-2020-02-28 18:29:20+02:00,John The Fisherman,Primus,They Can't All Be Zingers
+2020-02-28 18:29:20+02:00,John the Fisherman,Primus,They Can't All Be Zingers
 2020-02-28 18:24:51+02:00,Can't Stop,Red Hot Chili Peppers,By the Way
 2020-02-28 18:19:41+02:00,Black the Sky,King's X,Dogman
 2020-02-28 18:14:58+02:00,Give It Away,Red Hot Chili Peppers,Blood Sugar Sex Magik
@@ -19020,7 +19617,7 @@ ts,track,artist,album
 2019-09-10 17:05:41+03:00,Good Times Bad Times,Led Zeppelin,Led Zeppelin
 2019-09-10 17:02:51+03:00,Purple Haze,Jimi Hendrix,Are You Experienced?
 2019-09-10 16:59:14+03:00,Epic,Faith No More,The Real Thing
-2019-09-10 16:59:14+03:00,John The Fisherman,Primus,They Can't All Be Zingers
+2019-09-10 16:59:14+03:00,John the Fisherman,Primus,They Can't All Be Zingers
 2019-09-10 16:54:19+03:00,Epic,Faith No More,The Real Thing
 2019-09-10 16:49:39+03:00,Carry on Wayward Son,Kansas,Leftoverture
 2019-09-10 16:49:39+03:00,Just What I Needed,The Cars,The Cars
