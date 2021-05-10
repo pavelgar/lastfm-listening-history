@@ -32,6 +32,7 @@ const genres = [
 ]
 
 const container = d3.select("div#plot-container")
+let hoverlock = false
 
 // ##################################
 //  DATA PROCESSING FUNCTIONS
@@ -46,15 +47,6 @@ const transformData = ({ ts, track, artist, album }) => ({
   album,
   genre: genres[~~(Math.random() * genres.length)],
 })
-
-// Function for counting scrobbles by some interval (e.g. weeks or days)
-const getCounts = (d, by, accessor) =>
-  d3.rollup(
-    d,
-    (v) => v.length,
-    (d) => by(d.date),
-    accessor
-  )
 
 const addTitle = (g, title, fontSize = 10) =>
   g
@@ -82,10 +74,15 @@ const xAxis = (g, x) =>
 
 const yAxis = (g, y) =>
   g
-    .attr("transform", `translate(${margin.left}, 0)`)
-    .call(d3.axisLeft(y).ticks(contextHeight / 40))
+    .attr("transform", `translate(${contextWidth + margin.left}, 0)`)
+    .call(
+      d3
+        .axisLeft(y)
+        .ticks(contextHeight / 40)
+        .tickSize(contextWidth)
+    )
     .call((g) => g.select(".domain").remove())
-    .call((g) => g.selectAll(".tick > line").attr("stroke-opacity", 0.6))
+    .call((g) => g.selectAll(".tick > line").attr("stroke", "lightgray"))
 
 const xAxisGraph = (g, x) =>
   g
@@ -95,14 +92,13 @@ const xAxisGraph = (g, x) =>
         .axisBottom(x)
         .ticks(width / 100)
         .tickSize(graphHeight - margin.bottom * 0.6)
-        .tickSizeOuter(0)
     )
     .call((g) => g.select(".domain").remove())
     .call((g) =>
       g
         .selectAll(".tick > line")
-        .attr("stroke-opacity", 0.5)
-        .attr("stroke-dasharray", "2,2")
+        .attr("stroke", "lightgray")
+        .attr("stroke-dasharray", "3,4")
     )
 
 async function main() {
@@ -110,8 +106,11 @@ async function main() {
   //  DATA LOADING AND PREPROCESSING
   // ##################################
   const data = await d3.csv(fileName, transformData)
-  // Start and end day of the data
-  const dataTimeExtent = d3.extent(data, (d) => d.date)
+  // Start and end weeks of the data
+  const dataTimeExtent = d3
+    .extent(data, (d) => d.date)
+    .map(d3.timeMonday)
+    .map(d3.timeMonday.offset)
   // Every week between the beginning and the end of data
   const weeks = d3.timeMondays(...dataTimeExtent)
 
@@ -145,9 +144,12 @@ async function main() {
   // Title
   cx_svg.call(addTitle, "Weekly scrobbles")
 
+  // Create the Y axis
+  cx_svg.append("g").call(yAxis, cxY)
+
   // Create the bars
   cx_svg
-    .insert("g", ":first-child")
+    .append("g")
     .classed("bars", true)
     .selectAll("rect")
     .data(bins)
@@ -157,9 +159,8 @@ async function main() {
     .attr("width", (d) => Math.max(0, cxX(d.x1) - cxX(d.x0) - 1))
     .attr("height", (d) => cxY(0) - cxY(d.length))
 
-  // Create the X and Y axis
+  // Create the X axis
   cx_svg.append("g").call(xAxis, cxX)
-  cx_svg.append("g").call(yAxis, cxY, "Weekly scrobbles")
 
   // Create the brush
   const brushg = cx_svg.append("g")
@@ -188,7 +189,12 @@ async function main() {
   //  STREAMGRAPH
   // ##################################
   // Count scrobbles for each artist by week
-  const weeklyArtistCounts = getCounts(data, d3.timeMonday, (d) => d.artist)
+  const weeklyArtistCounts = d3.rollup(
+    data,
+    (v) => v.length,
+    (d) => d3.timeMonday.offset(d3.timeMonday(d.date), 1),
+    (d) => d.artist
+  )
 
   // Store current window for small calculations
   let window = []
@@ -209,14 +215,13 @@ async function main() {
     .scaleSequential(d3.interpolateInferno)
     .domain([0, middle])
 
-  // Generate a base week
-  const zeroWeek = artists.map((track) => [track, 0])
+  // Include the last week of data
+  weeks.push(d3.max(weeklyArtistCounts, (d) => d[0]))
 
   // Fill missing data points
   const stackData = weeks.map((date) => {
     let d = weeklyArtistCounts.get(date)
-    let dObj = zeroWeek.slice()
-    if (d) dObj = artists.map((track) => [track, d.get(track) || 0])
+    let dObj = artists.map((artist) => [artist, (d && d.get(artist)) || 0])
     return { date, ...Object.fromEntries(dObj) }
   })
 
@@ -294,7 +299,7 @@ async function main() {
   const legendWidth = width / 7
   const legendHeight = (legendFontSize + legendPadding) * 4 + legendPadding
   const legendX = width - legendWidth - margin.right
-  const legendY = graphHeight - legendHeight - margin.bottom
+  const legendY = graphHeight - legendHeight - margin.right
   const legend = plot
     .append("g")
     .classed("legend-area", true)
@@ -328,14 +333,14 @@ async function main() {
     .attr("x", legendPadding)
     .attr("y", (legendFontSize + legendPadding) * 2)
 
-  // Legend mean
-  const legendMean = legend
+  // Legend peak
+  const legendPeak = legend
     .append("text")
     .attr("x", legendPadding)
     .attr("y", (legendFontSize + legendPadding) * 3)
 
-  // Legend median
-  const legendMedian = legend
+  // Legend mean
+  const legendMean = legend
     .append("text")
     .attr("x", legendPadding)
     .attr("y", (legendFontSize + legendPadding) * 4)
@@ -370,8 +375,9 @@ async function main() {
 
   // Mouse entering event
   const mouseenter = (e, d) => {
+    if (hoverlock) return null
     // Update areas
-    streams.attr("fill-opacity", 0.5)
+    streams.attr("fill-opacity", 0.5).attr("stroke-width", 0)
     d3.select(e.target).attr("stroke-width", 0.1).attr("fill-opacity", 1)
 
     // Update tooltip
@@ -390,16 +396,36 @@ async function main() {
 
   // Mouse exiting event
   const mouseleave = (e) => {
+    if (hoverlock) return null
     // Set everything back to initial state
     streams.attr("fill-opacity", 1)
     d3.select(e.target).attr("stroke-width", 0)
     tooltip.attr("opacity", 0)
   }
 
+  // Mouse click event
+  const mouseclick = (_, d) => {
+    hoverlock = true
+    // Get the weeks containing data of this artist
+    const extent = d3.extent(
+      stackData.filter((e) => e[d.key] > 0),
+      (e) => e.date
+    )
+    // Offset to get the head and tail end
+    extent[0] = d3.timeMonday.offset(extent[0], -1)
+    extent[1] = d3.timeMonday.offset(extent[1], 1)
+
+    // Move brush to show the extent of the area
+    setInterval(() => (hoverlock = false), 2000)
+    const selection = extent.map((e) => cxX(e))
+    brushg.call(brush).call(brush.move, selection)
+  }
+
   streams
     .on("mouseenter", mouseenter)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave)
+    .on("click", mouseclick)
 
   // Register brush event handler
   cx_svg.on("input", ({ target }) => {
@@ -409,31 +435,29 @@ async function main() {
     const extent = target.value.map(cxX.invert, cxX) //.map(d3.utcDay.round)
     // Update the x axis
     plotX.domain(extent)
-    const t = d3.transition().duration(500)
-    gx.transition(t).call(xAxisGraph, plotX)
-
     // Update the legend info
     window = data.filter((d) => d.date >= extent[0] && d.date <= extent[1])
-
     const dailyWindow = d3.rollup(
       window,
       (v) => v.length,
       (d) => d3.timeDay(d.date)
     )
     const weeks = d3.timeMonday.count(...extent)
+    const peak = d3.max(dailyWindow, (d) => d[1])
     const mean = d3.mean(dailyWindow, (d) => d[1])
-    const median = d3.median(dailyWindow, (d) => d[1])
 
     legendTitle.text(`Current view (${weeks} weeks)`)
     legendTotal.text(`Total: ${window.length} scrobbles`)
+    legendPeak.text(`Peak: ${peak} scrobbles/day`)
     legendMean.text(`Mean: ${Math.round(mean)} scrobbles/day`)
-    legendMedian.text(`Median: ${median} scrobbles/day`)
 
     // Calculate the scaling factor and translation amount
     const scaling = contextWidth / (max - min)
     const translation = -width * (min / contextWidth) * scaling
 
-    // Update the area transformation
+    // Update the axis and area
+    const t = d3.transition().duration(500)
+    gx.transition(t).call(xAxisGraph, plotX)
     area
       .transition(t)
       .attr("transform", `translate(${translation}, 0) scale(${scaling}, 1)`)
